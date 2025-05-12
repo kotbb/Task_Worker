@@ -1,0 +1,109 @@
+CREATE TABLE Worker_
+(
+  ID INT NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE Client_
+(
+  ID INT NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  Email VARCHAR(60) NOT NULL,
+  City VARCHAR(50) NOT NULL,
+  StreetName VARCHAR(50) NOT NULL,
+  Country VARCHAR(50) NOT NULL,
+  StreetNumber INT NOT NULL,
+  ApartmentNumber INT NOT NULL,
+  PRIMARY KEY (ID),
+  UNIQUE (Email)
+);
+
+CREATE TABLE Task_
+(
+  ID INT NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  RequiredSpecialty VARCHAR(30) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE Request_
+(
+  ID INT NOT NULL,
+  RequestTime DATE NOT NULL,
+  PreferredTimeSlot DATE NOT NULL,
+  Client_ID INT NOT NULL,
+  Task_ID INT NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (Client_ID) REFERENCES Client_(ID),
+  FOREIGN KEY (Task_ID) REFERENCES Task_(ID)
+);
+
+CREATE TABLE RequestExecution (
+    ActualTime TIMESTAMP NOT NULL,  
+    WorkerRating NUMERIC(2,1) NOT NULL CHECK (WorkerRating BETWEEN 1 AND 5),  
+    ClientRating NUMERIC(2,1) NOT NULL CHECK (ClientRating BETWEEN 1 AND 5),
+    RequestStatus VARCHAR(20) NOT NULL CHECK (RequestStatus IN ('Pending', 'Completed', 'Failed')),
+    ClientFeedback VARCHAR(255),
+    WorkerFeedback VARCHAR(255),
+    Worker_ID INT NOT NULL,
+    Request_ID INT NOT NULL,
+    PRIMARY KEY (Worker_ID, Request_ID),
+    FOREIGN KEY (Worker_ID) REFERENCES Worker_(ID),
+    FOREIGN KEY (Request_ID) REFERENCES Request_(ID)
+);
+
+CREATE TABLE Perform
+(
+  Worker_ID INT NOT NULL,
+  Task_ID INT NOT NULL,
+  PRIMARY KEY (Worker_ID, Task_ID),
+  FOREIGN KEY (Worker_ID) REFERENCES Worker_(ID),
+  FOREIGN KEY (Task_ID) REFERENCES Task_(ID)
+);
+
+CREATE TABLE Worker__Specialties
+(
+  Specialties VARCHAR(100) NOT NULL,
+  Worker_ID INT NOT NULL,
+  PRIMARY KEY (Specialties, Worker_ID),
+  FOREIGN KEY (Worker_ID) REFERENCES Worker_(ID)
+);
+
+CREATE TABLE Worker__AvailableTimeSlots
+(
+  AvailableTimeSlots DATE NOT NULL,
+  Worker_ID INT NOT NULL,
+  PRIMARY KEY (AvailableTimeSlots, Worker_ID),
+  FOREIGN KEY (Worker_ID) REFERENCES Worker_(ID)
+);
+
+CREATE TABLE Client_Phone
+(
+  CountryCode INT NOT NULL,
+  LocalNumber VARCHAR(10) NOT NULL,
+  Client_ID INT NOT NULL,
+  PRIMARY KEY (CountryCode, LocalNumber, Client_ID),
+  FOREIGN KEY (Client_ID) REFERENCES Client_(ID)
+);
+
+CREATE TABLE Client_PaymentInfo
+(
+  CardHolderName VARCHAR(50) NOT NULL,
+  CardNumber NUMERIC(16) NOT NULL,
+  CVV NUMERIC(4) NOT NULL,
+  ExpiryDate DATE NOT NULL,
+  Client_ID INT NOT NULL,
+  PRIMARY KEY (CardHolderName, CardNumber, CVV, ExpiryDate, Client_ID),
+  FOREIGN KEY (Client_ID) REFERENCES Client_(ID)
+);
+
+CREATE TABLE Worker_Locations
+(
+  City VARCHAR(50) NOT NULL,
+  Street VARCHAR(50) NOT NULL,
+  Country VARCHAR(50) NOT NULL,
+  Worker_ID INT NOT NULL,
+  PRIMARY KEY (City, Street, Country, Worker_ID),
+  FOREIGN KEY (Worker_ID) REFERENCES Worker_(ID)
+);
