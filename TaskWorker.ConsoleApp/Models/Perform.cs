@@ -10,8 +10,5 @@ namespace TaskWorker.Models
     {
         public int WorkerId { get; set; }
         public int TaskId { get; set; }
-
-        public Worker Worker { get; set; }
-        public Task Task { get; set; }
     }
 }

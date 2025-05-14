@@ -11,6 +11,8 @@ namespace TaskWorker.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        
+        public string Password { get; set; }
         public string City { get; set; }
         public string StreetName { get; set; }
         public string Country { get; set; }
@@ -21,7 +23,8 @@ namespace TaskWorker.Models
         public HashSet<ClientPhone> Phones { get; set; } = new();
         public List<ClientPaymentInfo> PaymentInfos { get; set; } = new();
         public List<Request> Requests { get; set; } = new();
-
+        
+        
         public void Print()
         {
             Console.WriteLine($"ID: {this.Id}");

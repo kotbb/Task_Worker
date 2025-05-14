@@ -10,6 +10,5 @@ namespace TaskWorker.Models
     {
         public string Specialty { get; set; }  
         public int WorkerId { get; set; }
-        public Worker Worker { get; set; }
     }
 }

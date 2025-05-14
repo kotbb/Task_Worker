@@ -12,6 +12,5 @@ namespace TaskWorker.Models
         public string Street { get; set; }
         public string Country { get; set; }
         public int WorkerId { get; set; }
-        public Worker Worker { get; set; }
     }
 }

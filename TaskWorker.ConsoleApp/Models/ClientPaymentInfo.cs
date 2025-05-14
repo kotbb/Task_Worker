@@ -13,6 +13,5 @@ namespace TaskWorker.Models
         public int CVV { get; set; }
         public DateTime ExpiryDate { get; set; }
         public int ClientId { get; set; }
-        public Client Client { get; set; }
     }
 }

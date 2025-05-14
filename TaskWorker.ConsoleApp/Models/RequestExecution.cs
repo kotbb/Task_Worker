@@ -18,9 +18,6 @@ namespace TaskWorker.Models
         // Foreign Keys
         public int WorkerId { get; set; }
         public int RequestId { get; set; }
-
-        // Relationships
-        public Worker Worker { get; set; }
-        public Request Request { get; set; }
+        
     }
 }

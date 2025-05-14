@@ -17,8 +17,6 @@ namespace TaskWorker.Models
         public int TaskId { get; set; }
 
         // Relationships
-        public Client Client { get; set; }
-        public Task Task { get; set; }
         public List<RequestExecution> RequestExecutions { get; set; } = new();
     }
 }
