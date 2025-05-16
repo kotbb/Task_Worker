@@ -1,69 +1,69 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\",
+  "WorkspaceRootPath": "C:\\Mohamed\\C#\\Task_Worker\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\clientphone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\clientphone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\services\\clientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\services\\clientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\services\\workerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\services\\workerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\services\\taskservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\services\\taskservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\services\\taskservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\services\\requestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\services\\requestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\workerspecialty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\workerspecialty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\workerlocation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\workerlocation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\clientpaymentinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\services\\clientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\services\\clientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\services\\workerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\services\\workerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\clientphone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\clientphone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\clientpaymentinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\clientpaymentinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\perform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\services\\requestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\services\\requestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\workerspecialty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\workerspecialty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\workerlocation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\workerlocation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\perform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\perform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\requestexecution.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\requestexecution.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\requestexecution.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\workeravailabletimeslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\workeravailabletimeslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\workeravailabletimeslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\users\\kotb\\source\\repos\\task_worker\\taskworker.consoleapp\\models\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|c:\\mohamed\\c#\\task_worker\\taskworker.consoleapp\\models\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2ED1192B-2613-4330-BF7F-B87E2ADEB0E1}|TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj|solutionrelative:taskworker.consoleapp\\models\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -83,36 +83,10 @@
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "Task.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Task.cs",
-              "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\Task.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Task.cs",
-              "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\Task.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T00:03:52.658Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "WorkerLocation.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerLocation.cs",
-              "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\WorkerLocation.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerLocation.cs",
-              "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\WorkerLocation.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T00:04:03.106Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "WorkerSpecialty.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerSpecialty.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerSpecialty.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\WorkerSpecialty.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerSpecialty.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerSpecialty.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\WorkerSpecialty.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -121,11 +95,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "RequestService.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\RequestService.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\RequestService.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Services\\RequestService.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\RequestService.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\RequestService.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Services\\RequestService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -134,63 +108,76 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Program.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Program.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Program.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Program.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Program.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAjwBAAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-11T19:22:44.999Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "ClientService.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\ClientService.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\ClientService.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Services\\ClientService.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\ClientService.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\ClientService.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Services\\ClientService.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAADwvxUAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-12T00:02:50.179Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "TaskService.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\TaskService.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\TaskService.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Services\\TaskService.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\TaskService.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\TaskService.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Services\\TaskService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAEwBMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-12T00:03:03.711Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "Task.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Task.cs",
+              "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\Task.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Task.cs",
+              "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\Task.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-12T00:03:52.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "WorkerService.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\WorkerService.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\WorkerService.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Services\\WorkerService.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\WorkerService.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Services\\WorkerService.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Services\\WorkerService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-12T00:03:09.327Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "ClientPhone.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\ClientPhone.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\ClientPhone.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\ClientPhone.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\ClientPhone.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\ClientPhone.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\ClientPhone.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -199,11 +186,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 7,
               "Title": "ClientPaymentInfo.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\ClientPaymentInfo.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\ClientPaymentInfo.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\ClientPaymentInfo.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\ClientPaymentInfo.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\ClientPaymentInfo.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\ClientPaymentInfo.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAxwAYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -214,11 +201,11 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "Client.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Client.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Client.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\Client.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Client.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Client.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\Client.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAA3wCEAAABKAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAowA8AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-12T00:03:14.01Z",
               "EditorCaption": ""
@@ -226,10 +213,23 @@
             {
               "$type": "Document",
               "DocumentIndex": 10,
+              "Title": "WorkerLocation.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerLocation.cs",
+              "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\WorkerLocation.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerLocation.cs",
+              "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\WorkerLocation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-12T00:04:03.106Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "Worker.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Worker.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Worker.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\Worker.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Worker.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Worker.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\Worker.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -240,9 +240,9 @@
               "$type": "Document",
               "DocumentIndex": 12,
               "Title": "Perform.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Perform.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Perform.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\Perform.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Perform.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Perform.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\Perform.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -253,11 +253,11 @@
               "$type": "Document",
               "DocumentIndex": 13,
               "Title": "RequestExecution.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\RequestExecution.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\RequestExecution.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\RequestExecution.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\RequestExecution.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\RequestExecution.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\RequestExecution.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAowAYAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA5wAYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-12T00:03:49.44Z",
               "EditorCaption": ""
@@ -266,9 +266,9 @@
               "$type": "Document",
               "DocumentIndex": 14,
               "Title": "WorkerAvailableTimeSlot.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerAvailableTimeSlot.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerAvailableTimeSlot.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\WorkerAvailableTimeSlot.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerAvailableTimeSlot.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\WorkerAvailableTimeSlot.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\WorkerAvailableTimeSlot.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -279,9 +279,9 @@
               "$type": "Document",
               "DocumentIndex": 15,
               "Title": "Request.cs",
-              "DocumentMoniker": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Request.cs",
+              "DocumentMoniker": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Request.cs",
               "RelativeDocumentMoniker": "TaskWorker.ConsoleApp\\Models\\Request.cs",
-              "ToolTip": "C:\\Users\\Kotb\\source\\repos\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Request.cs",
+              "ToolTip": "C:\\Mohamed\\C#\\Task_Worker\\TaskWorker.ConsoleApp\\Models\\Request.cs",
               "RelativeToolTip": "TaskWorker.ConsoleApp\\Models\\Request.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

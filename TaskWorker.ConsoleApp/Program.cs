@@ -9,10 +9,21 @@ namespace TaskWorker.ConsoleApp
 {
     internal class Program
     {
-        public const string connectionString = "Server=KOTB;Database=Task_Worker;Trusted_Connection=true;";
+        public const string connectionString = "Server=DESKTOP-TGGO93S;Database=Task_Worker;Trusted_Connection=true;";
         static void Main(string[] args)
         {
             mainMenu();
+            var taskservice = new TaskService(connectionString);
+            taskservice.addTask(Task_("Task 1","Carpenter"));
+            taskservice.addTask(Task_("Task 2","Plumber"));
+            taskservice.addTask(Task_("Task 3","Engineer"));
+            var tasks = taskservice.getallTasks();
+            Console.WriteLine("ID\tName\tReq\n");
+            foreach (var tsk in tasks)
+            {
+                tsk.display();
+
+            }
         }
         //--------------------------------  Menu Functions  --------------------------------
         public static void mainMenu()
