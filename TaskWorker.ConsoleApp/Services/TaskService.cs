@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskWorker.Models;
 using System.Data.SqlClient;
-
+using Task = TaskWorker.Models.Task;
+using System.Data;
 
 namespace TaskWorker.Services
 {
@@ -18,7 +14,7 @@ namespace TaskWorker.Services
         {
             _connectionString = connectionString;
         }
-        public bool addTask(Task_ task)
+        public bool addTask(Task task)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -32,9 +28,9 @@ namespace TaskWorker.Services
                 return command.ExecuteNonQuery() > 0;
             }
         }
-        public List<Task_> getallTasks()
+        public List<Task> getallTasks()
         {
-            var tasks = new List<Task_>();
+            var tasks = new List<Task>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @"SELECT * FROM TASK_;";
@@ -44,7 +40,7 @@ namespace TaskWorker.Services
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    tasks.Add(new Task_(
+                    tasks.Add(new Task(
                         reader.GetInt32(reader.GetOrdinal("ID")),
                         reader.GetString(reader.GetOrdinal("Name")),
                         reader.GetString(reader.GetOrdinal("RequiredSpecialty"))
@@ -53,9 +49,9 @@ namespace TaskWorker.Services
                 return tasks;
             }
         }
-        public List<Task_> selectbyName(string name)
+        public List<Task> selectbyName(string name)
         {
-            var tasks = new List<Task_>();
+            var tasks = new List<Task>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @"SELECT * FROM TASK_ WHERE Name = @NAME;";
@@ -66,7 +62,7 @@ namespace TaskWorker.Services
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    tasks.Add(new Task_(
+                    tasks.Add(new Task(
                         reader.GetInt32(reader.GetOrdinal("ID")),
                         reader.GetString(reader.GetOrdinal("Name")),
                         reader.GetString(reader.GetOrdinal("RequiredSpecialty"))
@@ -75,9 +71,9 @@ namespace TaskWorker.Services
                 return tasks;
             }
         }
-        public List<Task_> selectbyID(int id)
+        public List<Task> selectbyID(int id)
         {
-            var tasks = new List<Task_>();
+            var tasks = new List<Task>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @"SELECT * FROM TASK_ WHERE ID = @id;";
@@ -88,7 +84,7 @@ namespace TaskWorker.Services
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    tasks.Add(new Task_(
+                    tasks.Add(new Task(
                         reader.GetInt32(reader.GetOrdinal("ID")),
                         reader.GetString(reader.GetOrdinal("Name")),
                         reader.GetString(reader.GetOrdinal("RequiredSpecialty"))
@@ -97,9 +93,9 @@ namespace TaskWorker.Services
                 return tasks;
             }
         }
-        public List<Task_> selectbySpecialty(string Req)
+        public List<Task> selectbySpecialty(string Req)
         {
-            var tasks = new List<Task_>();
+            var tasks = new List<Task>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @"SELECT * FROM TASK_ WHERE RequiredSpecialty = @Req;";
@@ -110,7 +106,7 @@ namespace TaskWorker.Services
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    tasks.Add(new Task_(
+                    tasks.Add(new Task(
                         reader.GetInt32(reader.GetOrdinal("ID")),
                         reader.GetString(reader.GetOrdinal("Name")),
                         reader.GetString(reader.GetOrdinal("RequiredSpecialty"))
@@ -128,6 +124,19 @@ namespace TaskWorker.Services
                                "DBCC CHECKIDENT ('Task_', RESEED, 0);";
 
                 var command = new SqlCommand(query, connection);
+                connection.Open();
+                
+                return command.ExecuteNonQuery() > 0;
+            }
+        }
+        public bool deleteTaskById(int taskId) {
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                string query = @"DELETE FROM Task_
+                                 WHERE ID = @id";
+                var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", taskId);
                 connection.Open();
                 
                 return command.ExecuteNonQuery() > 0;

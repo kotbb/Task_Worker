@@ -5,25 +5,15 @@ using System.Diagnostics.Contracts;
 using TaskWorker.Models;
 using TaskWorker.Services;
 using TaskWorker.Validation;
+
 namespace TaskWorker.ConsoleApp
 {
     internal class Program
     {
-        public const string connectionString = "Server=DESKTOP-TGGO93S;Database=Task_Worker;Trusted_Connection=true;";
+        public const string connectionString = "Server=KOTB;Database=Task_Worker;Trusted_Connection=true;";
         static void Main(string[] args)
         {
-            mainMenu();
-            var taskservice = new TaskService(connectionString);
-            taskservice.addTask(Task_("Task 1","Carpenter"));
-            taskservice.addTask(Task_("Task 2","Plumber"));
-            taskservice.addTask(Task_("Task 3","Engineer"));
-            var tasks = taskservice.getallTasks();
-            Console.WriteLine("ID\tName\tReq\n");
-            foreach (var tsk in tasks)
-            {
-                tsk.display();
-
-            }
+            //mainMenu();
         }
         //--------------------------------  Menu Functions  --------------------------------
         public static void mainMenu()
@@ -41,7 +31,7 @@ namespace TaskWorker.ConsoleApp
                         adminMenu();
                         break;
                     case 2:
-                        Console.WriteLine("Worker selected.");
+                        Console.WriteLine("Client selected.");
                         MainClientMenu();
                         break;
                     case 3:
@@ -74,7 +64,7 @@ namespace TaskWorker.ConsoleApp
             while (true)
             {
                 Console.WriteLine("=====  Admin Menu  =====");
-                Console.WriteLine("1. View worker\n" +
+                Console.WriteLine("1. worker\n" +
                                   "2. Add worker\n"+
                                   "3. Edit worker\n"+
                                   "4. Delete worker\n"+
@@ -82,11 +72,11 @@ namespace TaskWorker.ConsoleApp
                                   "6. Edit client\n"+
                                   "7. Delete client\n"+
                                   "8. Return to Main Menu");
-                int choice = int.Parse(Console.ReadLine());
+                    int choice = int.Parse(Console.ReadLine());
                 switch (choice)
                 {
                     case 1:
-                        // view worker
+                        
                     case 2:
                         // add worker
                         break;
@@ -97,13 +87,13 @@ namespace TaskWorker.ConsoleApp
                         // delete worker
                         break;
                     case 5:
-                        selectClientMenu();
+                        SelectClientMenu();
                         break;
                     case 6:
-                        // edit client
+                        editClientMenu();
                         break;
                     case 7:
-                        deleteClientMenu();
+                        DeleteClientMenu();
                         break;
                     case 8:
                         mainMenu();
@@ -179,89 +169,230 @@ namespace TaskWorker.ConsoleApp
                 }
             }
         }
-        public static void selectClientMenu()
-        {
+        public static void SelectClientMenu() {
             var clientService = new ClientService(connectionString);
-            Console.WriteLine("Select client/s with:\n" +
-                              "1. All\n" +
-                              "2. Name\n" +
-                              "3. City\n" +
-                              "4. Name and city\n" +
-                              "5. Return to admin menu");
-            int choiceSelect = int.Parse(Console.ReadLine());
-            string name, city;
             List<Client> clients;
-            switch (choiceSelect)
+            Dictionary<string, object> conditions = new Dictionary<string, object>();
+            List<string> columnsToSelect = new List<string>();
+            Dictionary<string, string> choicesValues = new Dictionary<string, string>
             {
-                case 1:
-                    clients = clientService.getAllClients();
-                    printClients(clients);
-                    break;
-                case 2:
-                    Console.Write("Enter the name:");
-                    name = Console.ReadLine();
-                    clients = clientService.selectByName(name);
-                    printClients(clients);
-                    break;
-                case 3:
-                    Console.Write("Enter the city:");
-                    city = Console.ReadLine();
-                    clients = clientService.selectByCity(city);
-                    printClients(clients);
-                    break;
-                case 4:
-                    Console.Write("Enter the name:");
-                    name = Console.ReadLine();
-                    Console.Write("Enter the city:");
-                    city = Console.ReadLine();
-                    clients = clientService.selectByName_City(name,city);
-                    printClients(clients);
-                    break;
-                case 5:
-                    adminMenu();
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice.");
-                    break;
+                { "1", "All" },
+                { "2", "Id"},
+                { "3", "Name" },
+                { "4", "Email" },
+                { "5", "Phone" },
+                { "6", "Country" },
+                { "7", "City" },
+                { "8", "Return to admin menu" }
+            };
+            //-----------------------------------------------------------------------
+            // Columns select menu
+            Console.WriteLine("Select client/s by:\n" +
+                              "1. All\n" +
+                              "2. Id\n" +
+                              "3. Name\n" +
+                              "4. Email\n" +
+                              "5. Phone\n" +
+                              "6. Country\n" +
+                              "7. City\n" +
+                              "8. Return to admin menu");
+            Console.WriteLine("Select column(s) to display (e.g., 1 2 4):");
+            string columnSelectChoice = Console.ReadLine();
+            
+            var selectedColumns = columnSelectChoice.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (selectedColumns.Contains("8"))
+            {
+                return;
             }
+            
+            foreach (var col in selectedColumns)
+            {
+                if (choicesValues.ContainsKey(col))
+                {
+                    columnsToSelect.Add(choicesValues[col]);
+                }
+            }
+            // Condition menu
+            Console.WriteLine("Choose condition(s):\n" +
+                              "1. All\n" +
+                              "2. Id\n" +
+                              "3. Name\n" +
+                              "4. Email\n" +
+                              "5. Phone\n" +
+                              "6. Country\n" +
+                              "7. City\n" +
+                              "8. Return to admin menu");
+            Console.WriteLine("Enter your condition choices (e.g., 2 5):");
+            string conditionChoice = Console.ReadLine();
+            
+            var selectedConditions = conditionChoice.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (selectedConditions.Contains("8"))
+            {
+                return;
+            }
+            foreach (var cond in selectedConditions)
+            {
+                // All condition
+                if (cond == "1")
+                {
+                    conditions[choicesValues[cond]] = "All";
+                }
+                else if (choicesValues.ContainsKey(cond))
+                {
+                    Console.Write($"Enter value for {choicesValues[cond]}: ");
+                    if (cond == "2")
+                    {
+                        int valueInt = int.Parse(Console.ReadLine());
+                        conditions[choicesValues[cond]] = valueInt;
+                    }
+                    else
+                    {
+                        string valueStr = Console.ReadLine();
+                        conditions[choicesValues[cond]] = valueStr;
+                    }
+                }
+            }
+            // Call function selectClients to the database
+            clients = clientService.getAllClients();
+            printClients(clients); 
         }
-        public static void deleteClientMenu()
+        public static void DeleteClientMenu()
         {
             var clientService = new ClientService(connectionString);
-            Console.WriteLine("Delete client/s with:\n" +
+
+            Console.WriteLine("Delete client(s) by condition:\n" +
+                              "1. Name\n" +
+                              "2. Id\n" +
+                              "3. Email\n" +
+                              "4. Phone\n" +
+                              "5. Country\n" +
+                              "6. City\n" +
+                              "7. Return to admin menu");
+            Console.WriteLine("Enter your condition choices (e.g., 2 4):");
+
+            string conditionChoice = Console.ReadLine();
+
+            Dictionary<string, string> choicesValues = new Dictionary<string, string>
+            {
+                { "1", "Id"},
+                { "2", "Name" },
+                { "3", "Email" },
+                { "4", "Phone" },
+                { "5", "Country" },
+                { "6", "City" },
+                { "7", "Return to admin menu" }
+            };
+
+            Dictionary<string, object> conditions = new Dictionary<string, object>();
+
+            var selectedConditions = conditionChoice.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (selectedConditions.Contains("7"))
+            {
+                return;
+            }
+            foreach (var cond in selectedConditions)
+            {
+                if (choicesValues.ContainsKey(cond))
+                {
+                    Console.Write($"Enter value for {choicesValues[cond]}: ");
+                    if (cond == "1")
+                    {
+                        int valueInt = int.Parse(Console.ReadLine());
+                        conditions[choicesValues[cond]] = valueInt;
+                    }
+                    else
+                    {
+                        string valueStr = Console.ReadLine();
+                        conditions[choicesValues[cond]] = valueStr;
+                    }
+                }
+            }
+            
+            // Call function DeleteClients to the database
+            bool success = clientService.DeleteClients(conditions);
+            if (!success)
+                Console.WriteLine("No clients matched the condition.");
+        }
+        public static void editClientMenu()
+        {
+            var clientService = new ClientService(connectionString);
+
+            Dictionary<string, string> choicesValues = new Dictionary<string, string>
+            {
+                { "1", "Id" },
+                { "2", "Name" },
+                { "3", "Email" },
+                { "4", "Phone" },
+                { "5", "Country" },
+                { "6", "City" },
+                { "7", "Return to admin menu" }
+            };
+            
+            Console.WriteLine("Update client(s) by condition:\n" +
                               "1. Id\n" +
                               "2. Name\n" +
-                              "3. Id and Name\n" +
-                              "5. Return to admin menu");
-            int choiceSelect = int.Parse(Console.ReadLine());
-            string name;
-            int id;
-            switch (choiceSelect)
+                              "3. Email\n" +
+                              "4. Phone\n" +
+                              "5. Country\n" +
+                              "6. City\n" +
+                              "7. Return to admin menu");
+            Console.WriteLine("Enter condition choices (e.g., 1 3):");
+            string conditionChoice = Console.ReadLine();
+            var selectedConditions = conditionChoice.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (selectedConditions.Contains("7"))
             {
-                case 1:
-                    Console.Write("Enter the name:");
-                    name = Console.ReadLine();
-                    clientService.deleteClientByName(name);
-                    break;
-                case 2:
-                    Console.Write("Enter the city:");
-                    id = int.Parse(Console.ReadLine());
-                    clientService.deleteClientById(id);
-                    break;
-                case 3:
-                    Console.Write("Enter the name:");
-                    name = Console.ReadLine();
-                    Console.Write("Enter the id:");
-                    id = int.Parse(Console.ReadLine());
-                    clientService.deleteClientById_Name(id,name);
-                    break;
-                case 4:
-                    adminMenu();
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice.");
-                    break;
+                return;
             }
+
+            Dictionary<string, object> conditions = new Dictionary<string, object>();
+
+            foreach (var cond in selectedConditions)
+            {
+                if (choicesValues.ContainsKey(cond))
+                {
+                    Console.Write($"Enter value for {choicesValues[cond]}: ");
+                    if (cond == "1")
+                    {
+                        int valueInt = int.Parse(Console.ReadLine());
+                        conditions[choicesValues[cond]] = valueInt;
+                    }
+                    else
+                    {
+                        string valueStr = Console.ReadLine();
+                        conditions[choicesValues[cond]] = valueStr;
+                    }
+                }
+            }
+            Console.WriteLine("\nSelect fields to update:\n" +
+                              "2. Name\n" +
+                              "3. Email\n" +
+                              "4. Phone\n" +
+                              "5. Country\n" +
+                              "6. City\n" +
+                              "7. Return to admin menu");
+            Console.WriteLine("Enter field numbers to update (e.g., 2 5):");
+            string updateChoice = Console.ReadLine();
+            var selectedUpdates = updateChoice.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (selectedUpdates.Contains("7"))
+            {
+                return;
+            }
+
+            Dictionary<string, object> updates = new Dictionary<string, object>();
+
+            foreach (var upd in selectedUpdates)
+            {
+                if (choicesValues.ContainsKey(upd))
+                {
+                    Console.Write($"Enter value for {choicesValues[upd]}: ");
+                    string valueStr = Console.ReadLine();
+                    conditions[choicesValues[upd]] = valueStr;
+                }
+            }
+            bool success = clientService.updateClients(updates, conditions);
         }
         public static void signUpClient()
         {
@@ -339,7 +470,7 @@ namespace TaskWorker.ConsoleApp
             Console.WriteLine($"{clients.Count} client(s) selected.");
             foreach (var client in clients)
             {
-                client.Print();
+                client.display();
             }
         }
     }

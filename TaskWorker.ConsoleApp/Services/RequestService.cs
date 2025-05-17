@@ -1,99 +1,96 @@
 using System;
 using System.Data.SqlClient;
+using TaskWorker.Models;
+using System.Data;
 
-class Program
+namespace TaskWorker.Services
 {
-    static string connectionString = "Server=DESKTOP-KD10KEJ\\MSSQLSERVER1;Database=master;Trusted_Connection=True;";
-
-    static void Main(string[] args)  
+    internal class RequestService
     {
-        while (true)
+        private string _connectionString;
+
+        // ----------------------  Methods ------------------------------
+        public RequestService(string connectionString)
         {
-            Console.WriteLine("\n--- Request Table Menu ---");
-            Console.WriteLine("1. Insert Request");
-            Console.WriteLine("2. Delete Request");
-            Console.WriteLine("3. Update Request");
-            Console.WriteLine("4. Exit");
+            _connectionString = connectionString;
+        }
 
-            Console.Write("Choose an option: ");
-            string input = Console.ReadLine();
-
-            switch (input)
+        public void InsertRequest(Request req)
+        {
+            
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                case "1": InsertRequest(); break;
-                case "2": DeleteRequest(); break;
-                case "3": UpdateRequest(); break;
-                case "4": return;
-                default: Console.WriteLine("Invalid option."); break;
+                string sql =
+                    "INSERT INTO Request_ (RequestTime, PreferredTimeSlot, Client_ID, Task_ID) VALUES (@RequestTime, @TimeSlot, @ClientID, @TaskID)"+
+                    "SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                cmd.Parameters.AddWithValue("@RequestTime", req.RequestTime);
+                cmd.Parameters.AddWithValue("@TimeSlot", req.PreferredTimeSlot);
+                cmd.Parameters.AddWithValue("@ClientID", req.ClientId);
+                cmd.Parameters.AddWithValue("@TaskID", req.TaskId);
+
+                conn.Open();
+                var newId = (int)cmd.ExecuteScalar();  
+                req.Id = newId;
+                Console.WriteLine($"Request inserted with ID: {newId}.");
+            }
+        }
+
+        public void DeleteRequestById(int requestId)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "DELETE FROM Request_ WHERE ID = @ID";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@ID", requestId);
+
+                conn.Open();
+                int rows = cmd.ExecuteNonQuery();
+                Console.WriteLine($"{rows} row(s) deleted.");
+            }
+        }
+
+        public void UpdateRequest(int requestId, string preferredTimeSlot)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "UPDATE Request_ SET PreferredTimeSlot = @TimeSlot WHERE ID = @ID";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@TimeSlot", preferredTimeSlot);
+                cmd.Parameters.AddWithValue("@ID", requestId);
+
+                conn.Open();
+                int rows = cmd.ExecuteNonQuery();
+                Console.WriteLine($"{rows} row(s) updated.");
+            }
+        }
+        
+        public List<Request> GetAllRequests()
+        {
+            var requests = new List<Request>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                string query = @"SELECT * FROM Request_;";
+                var command = new SqlCommand(query, connection);
+
+                connection.Open();
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    requests.Add(new Request()
+                    {
+                        Id = reader.GetInt32(0),
+                        RequestTime = reader.GetDateTime(2),
+                        PreferredTimeSlot = reader.GetDateTime(3),
+                        ClientId = reader.GetInt32(4),
+                        TaskId = reader.GetInt32(5),
+                    }
+                    );
+                }
+                return requests;
             }
         }
     }
-
-    static void InsertRequest()
-    {
-        Console.Write("Enter Request Time (yyyy-mm-dd): ");
-        string requestTime = Console.ReadLine();
-
-        Console.Write("Enter Preferred Time Slot (yyyy-mm-dd): ");
-        string timeSlot = Console.ReadLine();
-
-        Console.Write("Enter Client ID: ");
-        string clientId = Console.ReadLine();
-
-        Console.Write("Enter Task ID: ");
-        string taskId = Console.ReadLine();
-
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            string sql = "INSERT INTO Request_ (RequestTime, PreferredTimeSlot, Client_ID, Task_ID) VALUES (@RequestTime, @TimeSlot, @ClientID, @TaskID)";
-            SqlCommand cmd = new SqlCommand(sql, conn);
-
-            cmd.Parameters.AddWithValue("@RequestTime", requestTime);
-            cmd.Parameters.AddWithValue("@TimeSlot", timeSlot);
-            cmd.Parameters.AddWithValue("@ClientID", clientId);
-            cmd.Parameters.AddWithValue("@TaskID", taskId);
-
-            conn.Open();
-            int rows = cmd.ExecuteNonQuery();
-            Console.WriteLine($"{rows} row(s) inserted.");
-        }
-    }
-
-    static void DeleteRequest()
-    {
-        Console.Write("Enter Request ID to delete: ");
-        string id = Console.ReadLine();
-
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            string sql = "DELETE FROM Request_ WHERE ID = @ID";
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@ID", id);
-
-            conn.Open();
-            int rows = cmd.ExecuteNonQuery();
-            Console.WriteLine($"{rows} row(s) deleted.");
-        }
-    }
-
-    static void UpdateRequest()
-    {
-        Console.Write("Enter Request ID to update: ");
-        string id = Console.ReadLine();
-
-        Console.Write("Enter new Preferred Time Slot (yyyy-mm-dd): ");
-        string newTimeSlot = Console.ReadLine();
-
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            string sql = "UPDATE Request_ SET PreferredTimeSlot = @TimeSlot WHERE ID = @ID";
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@TimeSlot", newTimeSlot);
-            cmd.Parameters.AddWithValue("@ID", id);
-
-            conn.Open();
-            int rows = cmd.ExecuteNonQuery();
-            Console.WriteLine($"{rows} row(s) updated.");
-        }
-    }
 }
+

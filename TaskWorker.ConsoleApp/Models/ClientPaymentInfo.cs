@@ -9,8 +9,8 @@ namespace TaskWorker.Models
     internal class ClientPaymentInfo
     {
         public string CardHolderName { get; set; }
-        public long CardNumber { get; set; }
-        public int CVV { get; set; }
+        public string CardNumber { get; set; }
+        public decimal CVV { get; set; }
         public DateTime ExpiryDate { get; set; }
         public int ClientId { get; set; }
     }

@@ -18,14 +18,13 @@ namespace TaskWorker.Models
         public string Country { get; set; }
         public int StreetNumber { get; set; }
         public int ApartmentNumber { get; set; }
-
+        
         // Relationships
         public HashSet<ClientPhone> Phones { get; set; } = new();
         public List<ClientPaymentInfo> PaymentInfos { get; set; } = new();
         public List<Request> Requests { get; set; } = new();
         
-        
-        public void Print()
+        public void display()
         {
             Console.WriteLine($"ID: {this.Id}");
             Console.WriteLine($"Name: {this.Name}");
@@ -34,9 +33,16 @@ namespace TaskWorker.Models
             Console.WriteLine($"City: {this.City}");
             Console.WriteLine($"StreetName: {this.StreetName}");
             Console.WriteLine($"StreetNumber: {this.StreetNumber}");
-            Console.WriteLine($"ApartmentNumber: {this.ApartmentNumber}");
+            Console.WriteLine($"Phones:");
+            foreach (var phone in Phones)
+                Console.WriteLine($"-{phone.PhoneNumber}");
+            
+            Console.Write("\n");
+            Console.WriteLine($"PaymentInfos:");
+            foreach (var pi in PaymentInfos)
+                Console.WriteLine($"-{pi.CardHolderName} , {pi.CardNumber} , {pi.CVV}");
+            
             Console.WriteLine("---------------------");
         }
-
     }
 }

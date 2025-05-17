@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace TaskWorker.Models
 {
-    internal class Task_
+    internal class Task
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string RequiredSpecialty { get; set; }
 
-        public Task_(string n,string reqspec) {
+        public Task(string n,string reqspec) {
             this.Name = n;
             this.RequiredSpecialty = reqspec;
         }
-        public Task_(int d,string n,string reqspec) {
+        public Task(int d,string n,string reqspec) {
             this.Id = d;
             this.Name = n;
             this.RequiredSpecialty = reqspec;
