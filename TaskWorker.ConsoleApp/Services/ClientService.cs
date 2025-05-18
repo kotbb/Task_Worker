@@ -22,31 +22,31 @@ namespace TaskWorker.Services
             string commandText = @"
             INSERT INTO Client_ (Name, Email,Password, City, StreetName, Country, StreetNumber, ApartmentNumber,OverallRating)
             VALUES (@Name, @Email,@Password, @City, @StreetName, @Country, @StreetNumber, @ApartmentNumber, @OverallRating)
-            SELECT CAST(SCOPE_IDENTITY() AS INT);"; 
-
-            using (var connection = new SqlConnection(_connectionString))
-            using (var command = new SqlCommand(commandText, connection))
+            SELECT CAST(SCOPE_IDENTITY() AS INT);";
+            try
             {
-                command.Parameters.AddWithValue("@Name", client.Name);
-                command.Parameters.AddWithValue("@Email", client.Email);
-                command.Parameters.AddWithValue("@Password", client.Password);
-                command.Parameters.AddWithValue("@City", client.City);
-                command.Parameters.AddWithValue("@StreetName", client.StreetName);
-                command.Parameters.AddWithValue("@Country", client.Country);
-                command.Parameters.AddWithValue("@StreetNumber", client.StreetNumber);
-                command.Parameters.AddWithValue("@ApartmentNumber", client.ApartmentNumber);
-                command.Parameters.AddWithValue("@OverallRating", client.overallRating);
-                try
+                using (var connection = new SqlConnection(_connectionString))
+                using (var command = new SqlCommand(commandText, connection))
                 {
+                    command.Parameters.AddWithValue("@Name", client.Name);
+                    command.Parameters.AddWithValue("@Email", client.Email);
+                    command.Parameters.AddWithValue("@Password", client.Password);
+                    command.Parameters.AddWithValue("@City", client.City);
+                    command.Parameters.AddWithValue("@StreetName", client.StreetName);
+                    command.Parameters.AddWithValue("@Country", client.Country);
+                    command.Parameters.AddWithValue("@StreetNumber", client.StreetNumber);
+                    command.Parameters.AddWithValue("@ApartmentNumber", client.ApartmentNumber);
+                    command.Parameters.AddWithValue("@OverallRating", client.overallRating);
+
                     connection.Open();
-                    var newId = (int)command.ExecuteScalar();  
+                    var newId = (int)command.ExecuteScalar();
                     client.Id = newId;
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error adding client: {ex.Message}");
-                    throw;
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding client: {ex.Message}");
+                throw;
             }
         }
 
@@ -504,20 +504,30 @@ namespace TaskWorker.Services
             }
         }
         
-        public bool DeleteClientPhone(int clientId) 
+        public bool DeleteClientPhone(int clientId,string phoneNumber) 
         {
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                string query = @"DELETE FROM Client_Phone
-                                 WHERE Client_ID = @id";
-                var command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@id", clientId);
-                connection.Open();
-                return command.ExecuteNonQuery() > 0;
+                try
+                {
+                    string query = @"DELETE FROM Client_Phone
+                                 WHERE Client_ID = @id
+                                 AND PhoneNumber = @phoneNumber";
+                    var command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@id", clientId);
+                    command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                    connection.Open();
+                    return command.ExecuteNonQuery() > 0;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error deleting client phone: {e.Message}");
+                    return false;
+                }
             }
         }
-        public bool CalculateClientOverallRating(int clientId)
+        public  void CalculateClientOverallRating(int clientId)
         {
             // First get the average rating
             string selectCommandText = @"
@@ -568,7 +578,6 @@ namespace TaskWorker.Services
 
                         int rowsAffected = updateCommand.ExecuteNonQuery();
                         Console.WriteLine($"Updated overall rating for client ID {clientId}. Rows affected: {rowsAffected}");
-                        return rowsAffected > 0;
                     }
                 }
                 catch (Exception e)

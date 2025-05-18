@@ -93,7 +93,6 @@ namespace TaskWorker.Services
             return null; // Not found
         }
 
-        // Update existing RequestExecution
         public bool UpdateRequestExecution(RequestExecution exec)
         {
             string commandText = @"
@@ -282,8 +281,8 @@ namespace TaskWorker.Services
                     throw;
                 }
             }
-
             return executions;
         }
+        
     }
 }

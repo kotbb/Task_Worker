@@ -16,6 +16,7 @@ namespace TaskWorker.Models
         
         public decimal AverageTaskFee { get; set; }
 
+        public Task() {}
         public Task(string n,string reqspec) {
             this.Name = n;
             this.RequiredSpecialty = reqspec;

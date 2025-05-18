@@ -71,7 +71,7 @@ namespace TaskWorker.Services
             var requests = new List<Request>();
             using (var connection = new SqlConnection(_connectionString))
             {
-                string query = @"SELECT * FROM Request_;";
+                string query = "SELECT * FROM Request_;";
                 var command = new SqlCommand(query, connection);
 
                 connection.Open();
@@ -81,15 +81,46 @@ namespace TaskWorker.Services
                     requests.Add(new Request()
                     {
                         Id = reader.GetInt32(0),
-                        RequestTime = reader.GetDateTime(2),
-                        PreferredTimeSlot = reader.GetDateTime(3),
-                        ClientId = reader.GetInt32(4),
-                        TaskId = reader.GetInt32(5),
+                        RequestTime = reader.GetDateTime(1),
+                        PreferredTimeSlot = reader.GetDateTime(2),
+                        ClientId = reader.GetInt32(3),
+                        TaskId = reader.GetInt32(4),
                     }
                     );
                 }
                 return requests;
             }
+        }
+        public Request GetRequestById(int id)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    string query = @"SELECT * FROM Request_ WHERE ID = @id;";
+                    var command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@id", id);
+
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    {
+                        return new Request
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("ID")),
+                            RequestTime = reader.GetDateTime(reader.GetOrdinal("RequestTime")),
+                            PreferredTimeSlot = reader.GetDateTime(reader.GetOrdinal("PreferredTimeSlot")),
+                            ClientId = reader.GetInt32(reader.GetOrdinal("Client_ID")),
+                            TaskId = reader.GetInt32(reader.GetOrdinal("Task_ID"))
+                        };
+                    }
+                } 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+            return null;
         }
     }
 }

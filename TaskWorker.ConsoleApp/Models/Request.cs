@@ -18,6 +18,17 @@ namespace TaskWorker.Models
 
         // Relationships
         public List<RequestExecution> RequestExecutions { get; set; } = new();
+
+        public void display()
+        {
+            Console.WriteLine("=========== Request Details ===========");
+            Console.WriteLine($"Request ID         : {Id}");
+            Console.WriteLine($"Request Time       : {RequestTime}");
+            Console.WriteLine($"Preferred TimeSlot : {PreferredTimeSlot}");
+            Console.WriteLine($"Client ID          : {ClientId}");
+            Console.WriteLine($"Task ID            : {TaskId}");
+            Console.WriteLine("------ Executions for this Request ------");
+        }
     }
 }
 
