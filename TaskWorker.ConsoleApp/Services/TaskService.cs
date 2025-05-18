@@ -18,11 +18,14 @@ namespace TaskWorker.Services
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                string query = @"INSERT INTO TASK_ (NAME,REQUIREDSPECIALTY) VALUES (@NAME , @REQUIREDSPECIALTY);";
+                string query = @"INSERT INTO TASK_ (NAME,REQUIREDSPECIALTY,AverageTimeNeeded,AverageTaskFee) 
+                                VALUES (@Name , @RequiredSpecialty, @AverageTimeNeeded,@AverageTaskFee);";
                 var command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@Name", task.Name);
-                command.Parameters.AddWithValue("@REQUIREDSPECIALTY", task.RequiredSpecialty);
+                command.Parameters.AddWithValue("@RequiredSpecialty", task.RequiredSpecialty);
+                command.Parameters.AddWithValue("@AverageTimeNeeded", task.AverageTimeNeeded);
+                command.Parameters.AddWithValue("@AverageTaskFee", task.AverageTaskFee);
                 connection.Open();
 
                 return command.ExecuteNonQuery() > 0;
@@ -43,7 +46,9 @@ namespace TaskWorker.Services
                     tasks.Add(new Task(
                         reader.GetInt32(reader.GetOrdinal("ID")),
                         reader.GetString(reader.GetOrdinal("Name")),
-                        reader.GetString(reader.GetOrdinal("RequiredSpecialty"))
+                        reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
+                        reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
+                        reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
                     ));
                 }
                 return tasks;
@@ -65,15 +70,16 @@ namespace TaskWorker.Services
                     tasks.Add(new Task(
                         reader.GetInt32(reader.GetOrdinal("ID")),
                         reader.GetString(reader.GetOrdinal("Name")),
-                        reader.GetString(reader.GetOrdinal("RequiredSpecialty"))
+                        reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
+                        reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
+                        reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
                     ));
                 }
                 return tasks;
             }
         }
-        public List<Task> selectbyID(int id)
+        public Task getTaskById(int id)
         {
-            var tasks = new List<Task>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @"SELECT * FROM TASK_ WHERE ID = @id;";
@@ -84,16 +90,18 @@ namespace TaskWorker.Services
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    tasks.Add(new Task(
+                    return(new Task(
                         reader.GetInt32(reader.GetOrdinal("ID")),
                         reader.GetString(reader.GetOrdinal("Name")),
-                        reader.GetString(reader.GetOrdinal("RequiredSpecialty"))
+                        reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
+                        reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
+                        reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
                     ));
                 }
-                return tasks;
             }
+            return null;
         }
-        public List<Task> selectbySpecialty(string Req)
+        public List<Task> getTaskBySpecialty(string Req)
         {
             var tasks = new List<Task>();
             using (var connection = new SqlConnection(_connectionString))
@@ -109,7 +117,9 @@ namespace TaskWorker.Services
                     tasks.Add(new Task(
                         reader.GetInt32(reader.GetOrdinal("ID")),
                         reader.GetString(reader.GetOrdinal("Name")),
-                        reader.GetString(reader.GetOrdinal("RequiredSpecialty"))
+                        reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
+                        reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
+                        reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
                     ));
                 }
                 return tasks;

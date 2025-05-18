@@ -20,3 +20,4 @@ namespace TaskWorker.Models
         public List<RequestExecution> RequestExecutions { get; set; } = new();
     }
 }
+

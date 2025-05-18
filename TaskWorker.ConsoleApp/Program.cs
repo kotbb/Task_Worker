@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using System.Diagnostics.Contracts;
 using TaskWorker.Models;
+using Task = TaskWorker.Models.Task;
 using TaskWorker.Services;
 using TaskWorker.Validation;
 
@@ -11,9 +12,15 @@ namespace TaskWorker.ConsoleApp
     internal class Program
     {
         public const string connectionString = "Server=KOTB;Database=Task_Worker;Trusted_Connection=true;";
+        public static ClientService clientService = new ClientService(connectionString);
+        public static WorkerService workerService = new WorkerService(connectionString);
+        public static TaskService taskService = new TaskService(connectionString);
+        public static RequestService requestService = new RequestService(connectionString);
+        public static RequestExecutionService requestExecService = new RequestExecutionService(connectionString);
         static void Main(string[] args)
         {
-            //mainMenu();
+            
+            mainMenu();
         }
         //--------------------------------  Menu Functions  --------------------------------
         public static void mainMenu()
@@ -64,38 +71,31 @@ namespace TaskWorker.ConsoleApp
             while (true)
             {
                 Console.WriteLine("=====  Admin Menu  =====");
-                Console.WriteLine("1. worker\n" +
-                                  "2. Add worker\n"+
-                                  "3. Edit worker\n"+
-                                  "4. Delete worker\n"+
-                                  "5. View client\n"+
-                                  "6. Edit client\n"+
-                                  "7. Delete client\n"+
-                                  "8. Return to Main Menu");
+                Console.WriteLine("1. Workers\n" +
+                                  "2. Tasks\n"+
+                                  "3. Requests\n" +
+                                  "4. Clients\n"+
+                                  "5. Return to Main Menu");
                     int choice = int.Parse(Console.ReadLine());
                 switch (choice)
                 {
                     case 1:
-                        
+                        MainWorkerMenu();
+                        break;
                     case 2:
-                        // add worker
+                        MainTaskMenu();
                         break;
                     case 3:
-                        // edit worker
+                        MainRequestMenu();
                         break;
                     case 4:
-                        // delete worker
+                        List<Client> clients = clientService.getAllClients();
+                        foreach (Client client in clients)
+                        {
+                            client.display();
+                        }
                         break;
                     case 5:
-                        SelectClientMenu();
-                        break;
-                    case 6:
-                        editClientMenu();
-                        break;
-                    case 7:
-                        DeleteClientMenu();
-                        break;
-                    case 8:
                         mainMenu();
                         break;
                     default:
@@ -104,10 +104,193 @@ namespace TaskWorker.ConsoleApp
                 }
             }
         }
+        //--------------------------------  Request Functions  --------------------------------
+        public static void MainTaskMenu(){}
+          //--------------------------------  Request Functions  --------------------------------
+        public static void MainRequestMenu(){}
+        //--------------------------------  Workers Functions  --------------------------------
+        public static void MainWorkerMenu()
+        {
+            Worker logWorker = new Worker();
+            while (true)
+            {
+                Console.WriteLine("=====  Worker Menu  =====");
+                Console.WriteLine("1. Add\n" + 
+                                  "2. Update\n" +
+                                  "3. View\n" +
+                                  "4. Delete\n" +
+                                  "5. Return to Main Menu"
+                );
+                int choice = int.Parse(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:
+                        AddWorkerFunc();
+                        break;
+                    case 2:
+                        UpdateWorkerFunc();
+                        break;
+                    case 3:
+                        ViewWorkerFunc();
+                        break;
+                    case 4:
+                        DeleteWorkerFunc();
+                        break;
+                    case 5:
+                        mainMenu();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice.");
+                        break;
+                }
+            }
+        }
+
+        public static void AddWorkerFunc()
+        {
+            Worker newworker = new Worker();
+            var workerLocation = new WorkerLocation();
+            var workerSlots = new WorkerAvailableTimeSlot();
+            var workerSpeciality = new WorkerSpecialty();
+            Console.Write("Full Name: ");
+            newworker.Name = Console.ReadLine();
+            
+            Console.Write("Speciality: ");
+            workerSpeciality.Specialty = Console.ReadLine();
+            
+            Console.Write("Country: ");
+            workerLocation.Country = Console.ReadLine();
+            
+            Console.Write("City: ");
+            workerLocation.City = Console.ReadLine();
+    
+            Console.Write("Street Name: ");
+            workerLocation.Street = Console.ReadLine();
+            
+            Console.Write("AvailableTimeSlot: ");
+            string input = Console.ReadLine();
+            if (!DateTime.TryParse(input, out DateTime slotTime))
+            {
+                Console.WriteLine("Invalid date-time format. Please try again.");
+                return;
+            }
+            workerSlots.Slot = slotTime;
+            try
+            {
+                workerService.AddWorker(newworker);
+                workerLocation.WorkerId = newworker.Id;
+                workerSpeciality.WorkerId = newworker.Id;
+                workerSlots.WorkerId = newworker.Id;
+                workerService.AddWorkerLocation(workerLocation);
+                workerService.AddWorkerSpecialty(workerSpeciality);
+                workerService.AddWorkerAvailableTimeSlot(workerSlots);
+        
+                Console.WriteLine("\nRegistration successful!");
+                Console.WriteLine($"Your Worker ID is: {newworker.Id}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nRegistration failed: {ex.Message}");
+            }
+            MainWorkerMenu();
+        }
+
+        public static void UpdateWorkerFunc()
+        {
+            Console.WriteLine("Enter Worker ID you want to update:");
+            int workerId = int.Parse(Console.ReadLine());
+            
+            Console.WriteLine("Choose:\n" +
+                              "1. Name\n" +
+                              "2. Location\n" +
+                              "3. Speciality\n" +
+                              "4. AvailableSlots\n" +
+                              "5. Return to admin menu");
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    Console.WriteLine("Enter new Name:");
+                    string name = Console.ReadLine();
+                    workerService.UpdateWorkerName(workerId, name);
+                    Console.WriteLine("Name successfully updated!");
+                    break;
+                
+                case 2:
+                    WorkerLocation workerLocation = new WorkerLocation();
+                    Console.WriteLine("Enter new Country:");
+                    workerLocation.Country = Console.ReadLine();
+                    Console.WriteLine("Enter new City:");
+                    workerLocation.City = Console.ReadLine();
+                    Console.WriteLine("Enter new Street:");
+                    workerLocation.Street = Console.ReadLine();
+                    workerService.UpdateWorkerLocations(workerId, workerLocation);
+                    Console.WriteLine("Worker Location successfully updated!");
+                    break;
+                
+                case 3:
+                    WorkerSpecialty workerSpecialty = new WorkerSpecialty();
+                    Console.WriteLine("Enter new Speciality:");
+                    workerSpecialty.Specialty = Console.ReadLine();
+                    workerService.UpdateWorkerSpecialties(workerId, workerSpecialty);
+                    Console.WriteLine("Worker Speciality successfully updated!");
+                    break;
+                
+                case 4:
+                    WorkerAvailableTimeSlot workerSlot = new WorkerAvailableTimeSlot();
+                    Console.WriteLine("Enter new Slot:");
+                    string input = Console.ReadLine();
+                    if (!DateTime.TryParse(input, out DateTime slotTime))
+                    {
+                        Console.WriteLine("Invalid date-time format. Please try again.");
+                        return;
+                    }
+                    workerSlot.Slot = slotTime;
+                    workerService.UpdateWorkerTimeSlots(workerId, workerSlot);
+                    Console.WriteLine("Worker slotTime successfully updated!");
+                    break;
+                
+                case 5:
+                    MainWorkerMenu();
+                    break;
+                
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+        }
+
+        public static void DeleteWorkerFunc()
+        {
+            List <Worker> workers = workerService.getAllWorkers();
+            foreach (var worker in workers)
+            {
+                worker.display();
+            }
+            Console.WriteLine("Enter worker ID you want to delete:");
+            int workerId = int.Parse(Console.ReadLine());
+            
+            Console.WriteLine("Are you sure you want to delete this worker y/n ?");
+            string deleteCh = Console.ReadLine();
+            if (deleteCh == "y")
+            {
+                workerService.DeleteWorkerById(workerId);
+                Console.WriteLine("Deleted successfully.");
+            }
+        }
+        public static void ViewWorkerFunc()
+        {
+            List <Worker> workers = workerService.getAllWorkers();
+            foreach (var worker in workers)
+            {
+                worker.display();
+            }
+        }
+
         //--------------------------------  Clients Functions  --------------------------------
         public static void MainClientMenu()
         {
-            var clientService = new ClientService(connectionString);
+            Client logClient = new Client();
             while (true)
             {
                 Console.WriteLine("=====  Client Menu  =====");
@@ -132,7 +315,7 @@ namespace TaskWorker.ConsoleApp
                         Console.Write("Password: ");
                         string pass = Console.ReadLine();
                         
-                        Client logClient = clientService.getClientByEmail(email);
+                        logClient = clientService.getClientByEmail(email);
                         if (logClient.Password != pass || logClient.Email != email)
                         {
                             Console.WriteLine("Login failed , Invalid data.");
@@ -151,15 +334,24 @@ namespace TaskWorker.ConsoleApp
                 while (true)
                 {
                     Console.WriteLine("=====  Client Menu  =====");
-                    Console.WriteLine("1. View all available tasks\n" +
-                                      "2. Return to client Menu");
+                    Console.WriteLine("1. Edit my account\n" +
+                                      "2. View all available tasks\n" +
+                                      "3. Delete my account\n" +
+                                      "4. Return to client Menu\n");
                     choice = int.Parse(Console.ReadLine());
                     switch (choice)
                     {
                         case 1:
-                            // tasks view
+                            editClientMenu(logClient);
                             break;
                         case 2:
+                            TaskViewMenu(logClient);
+                            break;
+                        case 3:
+                            DeleteClientMenu(logClient);
+                            MainClientMenu();
+                            break;
+                        case 4:
                             MainClientMenu();
                             break;
                         default:
@@ -168,6 +360,77 @@ namespace TaskWorker.ConsoleApp
                     }  
                 }
             }
+        }
+
+        public static void TaskViewMenu(Client logClient)
+        {
+          
+            Request request = new Request();
+            List <Task> tasks = taskService.getallTasks();
+            foreach (Task task in tasks)
+            {
+                task.display();
+            }
+            Console.WriteLine("Enter task ID you want to request:");
+            int taskId = int.Parse(Console.ReadLine());
+            Console.Write("Enter your preferred time slot (e.g., 'yyyy-MM-dd HH:mm'): ");
+            string input = Console.ReadLine();
+            if (!DateTime.TryParse(input, out DateTime prefTime))
+            {
+                Console.WriteLine("Invalid date-time format. Please try again.");
+                return;
+            }
+            request.ClientId = logClient.Id;
+            request.TaskId = taskId;
+            request.RequestTime = DateTime.Now;
+            request.PreferredTimeSlot = prefTime;
+            requestService.InsertRequest(request);
+            
+            Task selectedTask = taskService.getTaskById(taskId);
+            executeRequest(request.Id, logClient, selectedTask);
+            
+        }
+
+        public static bool executeRequest(int requestId, Client client, Task selectedTask)
+        {
+            Worker bestWorker = null;
+            List<Worker> workers = workerService.selectWorkerBySpecialty(selectedTask.RequiredSpecialty);
+            if (workers.Count == 0)
+            {
+                Console.WriteLine("No workers available.");
+            }
+            else if (workers.Count == 1)
+            {
+                bestWorker = workers[0];
+            }
+            else
+            {
+                foreach (Worker worker in workers)
+                {
+                    foreach (var workerLocation in worker.Locations)
+                    {
+                        if (client.City == workerLocation.City)
+                        {
+                            bestWorker = worker;
+                            break;
+                        }
+                    }
+
+                    if (bestWorker != null)
+                        break;
+                }
+            }
+            RequestExecution exec = new RequestExecution
+            {
+                ActualTime = DateTime.Now,
+                Status = "Pending",
+                RequestId = requestId,
+                WorkerId = bestWorker.Id,
+            };
+            requestExecService.AddRequestExecution(exec);
+            Console.WriteLine("Request is placed successfully.");
+            bestWorker.display();
+            return true;
         }
         public static void SelectClientMenu() {
             var clientService = new ClientService(connectionString);
@@ -257,146 +520,77 @@ namespace TaskWorker.ConsoleApp
             clients = clientService.getAllClients();
             printClients(clients); 
         }
-        public static void DeleteClientMenu()
+
+        public static void DeleteClientMenu(Client logClient)
         {
-            var clientService = new ClientService(connectionString);
-
-            Console.WriteLine("Delete client(s) by condition:\n" +
-                              "1. Name\n" +
-                              "2. Id\n" +
-                              "3. Email\n" +
-                              "4. Phone\n" +
-                              "5. Country\n" +
-                              "6. City\n" +
-                              "7. Return to admin menu");
-            Console.WriteLine("Enter your condition choices (e.g., 2 4):");
-
-            string conditionChoice = Console.ReadLine();
-
-            Dictionary<string, string> choicesValues = new Dictionary<string, string>
+            Console.WriteLine("Are you sure you want to delete your account y/n ?");
+            string deleteCh = Console.ReadLine();
+            if (deleteCh == "y")
             {
-                { "1", "Id"},
-                { "2", "Name" },
-                { "3", "Email" },
-                { "4", "Phone" },
-                { "5", "Country" },
-                { "6", "City" },
-                { "7", "Return to admin menu" }
-            };
-
-            Dictionary<string, object> conditions = new Dictionary<string, object>();
-
-            var selectedConditions = conditionChoice.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            if (selectedConditions.Contains("7"))
-            {
-                return;
+                clientService.DeleteClientById(logClient.Id);
+                Console.WriteLine("Deleted successfully.");
             }
-            foreach (var cond in selectedConditions)
-            {
-                if (choicesValues.ContainsKey(cond))
-                {
-                    Console.Write($"Enter value for {choicesValues[cond]}: ");
-                    if (cond == "1")
-                    {
-                        int valueInt = int.Parse(Console.ReadLine());
-                        conditions[choicesValues[cond]] = valueInt;
-                    }
-                    else
-                    {
-                        string valueStr = Console.ReadLine();
-                        conditions[choicesValues[cond]] = valueStr;
-                    }
-                }
-            }
-            
-            // Call function DeleteClients to the database
-            bool success = clientService.DeleteClients(conditions);
-            if (!success)
-                Console.WriteLine("No clients matched the condition.");
         }
-        public static void editClientMenu()
+        public static void editClientMenu(Client logClient)
         {
-            var clientService = new ClientService(connectionString);
-
-            Dictionary<string, string> choicesValues = new Dictionary<string, string>
-            {
-                { "1", "Id" },
-                { "2", "Name" },
-                { "3", "Email" },
-                { "4", "Phone" },
-                { "5", "Country" },
-                { "6", "City" },
-                { "7", "Return to admin menu" }
-            };
-            
-            Console.WriteLine("Update client(s) by condition:\n" +
-                              "1. Id\n" +
-                              "2. Name\n" +
-                              "3. Email\n" +
-                              "4. Phone\n" +
-                              "5. Country\n" +
-                              "6. City\n" +
-                              "7. Return to admin menu");
-            Console.WriteLine("Enter condition choices (e.g., 1 3):");
-            string conditionChoice = Console.ReadLine();
-            var selectedConditions = conditionChoice.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            if (selectedConditions.Contains("7"))
-            {
-                return;
-            }
-
-            Dictionary<string, object> conditions = new Dictionary<string, object>();
-
-            foreach (var cond in selectedConditions)
-            {
-                if (choicesValues.ContainsKey(cond))
-                {
-                    Console.Write($"Enter value for {choicesValues[cond]}: ");
-                    if (cond == "1")
-                    {
-                        int valueInt = int.Parse(Console.ReadLine());
-                        conditions[choicesValues[cond]] = valueInt;
-                    }
-                    else
-                    {
-                        string valueStr = Console.ReadLine();
-                        conditions[choicesValues[cond]] = valueStr;
-                    }
-                }
-            }
+            int id = logClient.Id;
+            logClient.display();
             Console.WriteLine("\nSelect fields to update:\n" +
-                              "2. Name\n" +
-                              "3. Email\n" +
-                              "4. Phone\n" +
-                              "5. Country\n" +
-                              "6. City\n" +
-                              "7. Return to admin menu");
-            Console.WriteLine("Enter field numbers to update (e.g., 2 5):");
+                              "1. Name\n" +
+                              "2. Password\n" +
+                              "3. Country\n" +
+                              "4. City\n" +
+                              "5. Phone number\n" +
+                              "6. Return to client menu");
+            Console.WriteLine("Enter field you want to update:");
             string updateChoice = Console.ReadLine();
-            var selectedUpdates = updateChoice.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            if (selectedUpdates.Contains("7"))
+            switch (updateChoice)
             {
-                return;
-            }
+                case "1":
+                    Console.WriteLine("Enter the updated name: ");
+                    string name = Console.ReadLine();
+                    clientService.UpdateClientName(id, name);
+                    Console.WriteLine("Updated successfully.");
+                    break;
+                
+                case "2":
+                    Console.WriteLine("Enter the updated Password: ");
+                    string Password = Console.ReadLine();
+                    clientService.UpdateClientCountry(id, Password);
+                    Console.WriteLine("Updated successfully.");
+                    break;
 
-            Dictionary<string, object> updates = new Dictionary<string, object>();
+                case "3":
+                    Console.WriteLine("Enter the updated country: ");
+                    string country = Console.ReadLine();
+                    clientService.UpdateClientCountry(id, country);
+                    Console.WriteLine("Updated successfully.");
+                    break;
 
-            foreach (var upd in selectedUpdates)
-            {
-                if (choicesValues.ContainsKey(upd))
-                {
-                    Console.Write($"Enter value for {choicesValues[upd]}: ");
-                    string valueStr = Console.ReadLine();
-                    conditions[choicesValues[upd]] = valueStr;
-                }
+                case "4":
+                    Console.WriteLine("Enter the updated city: ");
+                    string city = Console.ReadLine();
+                    clientService.UpdateClientCity(id, city);
+                    Console.WriteLine("Updated successfully.");
+                    break;
+                
+                case "5":
+                    Console.WriteLine("Enter another phone Number: ");
+                    string phone = Console.ReadLine();
+                    clientService.addClientPhone(id, phone);
+                    Console.WriteLine("Updated successfully.");
+                    break;
+                
+                case "6":
+                    MainClientMenu();
+                    break;
+                default:
+                    Console.WriteLine("Invaild choice ");
+                    break;
             }
-            bool success = clientService.updateClients(updates, conditions);
         }
         public static void signUpClient()
         {
-            
             var client = new Client();
             Console.Write("Full Name: ");
             client.Name = Console.ReadLine();
@@ -441,23 +635,53 @@ namespace TaskWorker.ConsoleApp
             }
             client.ApartmentNumber = apartmentNumber;
             
+            clientService.addClient(client);
+            //-------------------------------------------------------
             Console.Write("Phone Number: ");
             string phoneNumber = Console.ReadLine().Trim();
+            if (!CheckInputs.IsValidPhoneNumber(phoneNumber))
+            {
+                Console.WriteLine("Invalid phoneNumber.");
+                return;
+            }
+            //-------------------------------------------------------
+            Console.Write("Add payment info? y/n");
+            string paymentChoice = Console.ReadLine();
+            ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
+            if (paymentChoice.ToLower() == "y")
+            {
+                Console.Write("CardHolderName: ");
+                clientPaymentInfo.CardHolderName = Console.ReadLine();
             
+                Console.Write("CardNumber: ");
+                clientPaymentInfo.CardNumber = Console.ReadLine();
+            
+                Console.Write("CVV: ");
+                clientPaymentInfo.CVV = int.Parse(Console.ReadLine());
+    
+                Console.Write("ExpiryDate: ");
+                string input = Console.ReadLine();
+                if (!DateTime.TryParse(input, out DateTime expiryDate))
+                {
+                    Console.WriteLine("Invalid expiryDate.");
+                }
+                else
+                {
+                    clientPaymentInfo.ExpiryDate = expiryDate;
+                }
+                clientService.addClientPaymentInfo(client.Id,clientPaymentInfo);
+            }
             try
             {
-                var clientService = new ClientService(connectionString); 
-                clientService.addClient(client);
                 clientService.addClientPhone(client.Id,phoneNumber);
-        
                 Console.WriteLine("\nRegistration successful!");
                 Console.WriteLine($"Your client ID is: {client.Id}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"\nRegistration failed: {ex.Message}");
-                MainClientMenu();
             }
+            MainClientMenu();
         }
         public static void printClients(List<Client> clients)
         {
@@ -473,6 +697,7 @@ namespace TaskWorker.ConsoleApp
                 client.display();
             }
         }
+       
     }
     
 }

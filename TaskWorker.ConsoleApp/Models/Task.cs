@@ -11,19 +11,28 @@ namespace TaskWorker.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string RequiredSpecialty { get; set; }
+        
+        public int AverageTimeNeeded { get; set; }
+        
+        public decimal AverageTaskFee { get; set; }
 
         public Task(string n,string reqspec) {
             this.Name = n;
             this.RequiredSpecialty = reqspec;
         }
-        public Task(int d,string n,string reqspec) {
+        public Task(int d,string n,string reqspec,int averageTimeNeeded,decimal averageTaskFee) {
             this.Id = d;
             this.Name = n;
             this.RequiredSpecialty = reqspec;
+            this.AverageTimeNeeded = averageTimeNeeded;
+            this.AverageTaskFee = averageTaskFee;
         }
         public void display() {
-            Console.WriteLine($"{this.Id}.\t{this.Name}\t{this.RequiredSpecialty}\t");
-            
+            Console.WriteLine("------------- Tasks --------------");
+            Console.WriteLine($"| {"ID",-5} | {"Name",-20} | {"Required Specialty",-20} |");
+            Console.WriteLine("-------------------------------------");
+            Console.WriteLine($"| {this.Id,-5} | {this.Name,-20} | {this.RequiredSpecialty,-20} |");
+            Console.WriteLine("-------------------------------------");
         }
         // Relationships
         public List<Request> Requests { get; set; } = new();

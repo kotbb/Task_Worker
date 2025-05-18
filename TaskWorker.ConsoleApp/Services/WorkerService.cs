@@ -35,10 +35,12 @@ namespace TaskWorker.Services
                         {
                             Id = id,
                             Name = reader.GetString(reader.GetOrdinal("Name")),
+                            overallRating = reader.GetDecimal(reader.GetOrdinal("OverallRating")),
                             Specialties = GetWorkerSpecialties(id).ToHashSet(),
                             AvailableTimeSlots = GetWorkerTimeSlots(id),
                             Locations = GetWorkerLocations(id),
                             Performs = GetWorkerPerforms(id).ToHashSet(),
+                            
                         }
                     );
                 }
@@ -50,14 +52,15 @@ namespace TaskWorker.Services
         public void AddWorker(Worker worker)
         {
             string commandText = @"
-            INSERT INTO Worker_ (Name)
-            VALUES (@Name);
+            INSERT INTO Worker_ (Name,OverallRating)
+            VALUES (@Name,@OverallRating);
             SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
             using (var connection = new SqlConnection(_connectionString))
             using (var command = new SqlCommand(commandText, connection))
             {
                 command.Parameters.AddWithValue("@Name", worker.Name);
+                command.Parameters.AddWithValue("@OverallRating", worker.overallRating);
                 try
                 {
                     connection.Open();
@@ -330,6 +333,7 @@ namespace TaskWorker.Services
                         {
                             worker.Id = reader.GetInt32(0);
                             worker.Name = reader.GetString(1);
+                            worker.overallRating = reader.GetDecimal(2);
                         }
                         else
                         {
@@ -372,6 +376,7 @@ namespace TaskWorker.Services
                         {
                             worker.Id = reader.GetInt32(0);
                             worker.Name = reader.GetString(1);
+                            worker.overallRating = reader.GetDecimal(2);
                         }
                         else
                         {
@@ -392,10 +397,10 @@ namespace TaskWorker.Services
         }
 
         // Inner join requirement
-        public List<Worker> selectWorkerByspecialty(string specialty)
+        public List<Worker> selectWorkerBySpecialty(string specialty)
         {
             const string query = @"
-            SELECT w.ID, w.Name
+            SELECT w.ID, w.Name, w.OverallRating
             FROM Worker_ w
             INNER JOIN Worker_Specialties ws ON w.ID = ws.Worker_ID
             WHERE ws.Specialties = @Specialty";
@@ -417,7 +422,8 @@ namespace TaskWorker.Services
                             var worker = new Worker
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1)
+                                Name = reader.GetString(1),
+                                overallRating = reader.GetDecimal(2)
                             };
 
                             worker.Specialties = GetWorkerSpecialties(worker.Id).ToHashSet();
@@ -507,6 +513,137 @@ namespace TaskWorker.Services
                 }
             }
         }
+        
+        public bool CalculateOverallRating(int workerId)
+        {
+            // First get the average rating
+            string selectCommandText = @"
+                SELECT AVG(CAST(WorkerRating AS DECIMAL(3,2)))
+                FROM RequestExecution 
+                WHERE Worker_ID = @workerId";
+    
+            // Then update the worker's overall rating
+            string updateCommandText = @"
+                UPDATE Worker_
+                SET OverallRating = @averageRating
+                WHERE ID = @workerId";
 
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    // First calculate the average rating
+                    decimal? averageRating = null;
+                    using (var selectCommand = new SqlCommand(selectCommandText, connection))
+                    {
+                        selectCommand.Parameters.AddWithValue("@workerId", workerId);
+                        var result = selectCommand.ExecuteScalar();
+                        
+                        if (result != DBNull.Value)
+                        {
+                            averageRating = Convert.ToDecimal(result);
+                        }
+                    }
+
+                    // Then update the worker's record
+                    using (var updateCommand = new SqlCommand(updateCommandText, connection))
+                    {
+                        updateCommand.Parameters.AddWithValue("@workerId", workerId);
+                        
+                        if (averageRating.HasValue)
+                        {
+                            updateCommand.Parameters.AddWithValue("@averageRating", averageRating.Value);
+                        }
+                        else
+                        {
+                            // Handle case where worker has no ratings yet
+                            updateCommand.Parameters.AddWithValue("@averageRating", DBNull.Value);
+                        }
+
+                        int rowsAffected = updateCommand.ExecuteNonQuery();
+                        Console.WriteLine($"Updated overall rating for worker ID {workerId}. Rows affected: {rowsAffected}");
+                        return rowsAffected > 0;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error calculating overall rating: {e.Message}");
+                    throw;
+                }
+            }
+        }
+
+        public bool UpdateWorkerTimeSlots(int workerId, WorkerAvailableTimeSlot newTimeSlot)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                string insertQuery = @"INSERT INTO Worker_AvailableTimeSlots 
+                              (Worker_ID, AvailableTimeSlots)
+                              VALUES (@WorkerId, @Slot)";
+                try
+                {
+                    using (var insertCommand = new SqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@WorkerId", workerId);
+                        insertCommand.Parameters.AddWithValue("@Slot", newTimeSlot.Slot);
+                        return insertCommand.ExecuteNonQuery() > 0;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error updating time slots: {e.Message}");
+                    throw;
+                }
+            }
+        }
+
+        public bool UpdateWorkerLocations(int workerId, WorkerLocation newLocation)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    string insertQuery = @"INSERT INTO Worker_Locations 
+                                  (Worker_ID, City, Street, Country)
+                                  VALUES (@WorkerId, @City, @Street, @Country)";
+                    using (var insertCommand = new SqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@WorkerId", workerId);
+                        insertCommand.Parameters.AddWithValue("@City", newLocation.City);
+                        insertCommand.Parameters.AddWithValue("@Street", newLocation.Street);
+                        insertCommand.Parameters.AddWithValue("@Country", newLocation.Country);
+                        return insertCommand.ExecuteNonQuery() > 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error updating locations: {ex.Message}");
+                    throw;
+                }
+            }
+        }
+        public bool UpdateWorkerSpecialties(int workerId, WorkerSpecialty newSpeciality)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try{
+                    string insertQuery = @"INSERT INTO Worker_Specialties 
+                                  (Worker_ID, Specialties)
+                                  VALUES (@WorkerId, @Specialty)";
+                    using (var insertCommand = new SqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@WorkerId", workerId);
+                        insertCommand.Parameters.AddWithValue("@Specialty", newSpeciality.Specialty);
+                        return insertCommand.ExecuteNonQuery() > 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error updating specialties: {ex.Message}");
+                    throw;
+                }
+            }
+        }
     }
 }

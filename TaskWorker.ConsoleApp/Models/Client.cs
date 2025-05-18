@@ -19,6 +19,8 @@ namespace TaskWorker.Models
         public int StreetNumber { get; set; }
         public int ApartmentNumber { get; set; }
         
+        public decimal overallRating { get; set; }
+        
         // Relationships
         public HashSet<ClientPhone> Phones { get; set; } = new();
         public List<ClientPaymentInfo> PaymentInfos { get; set; } = new();
@@ -26,6 +28,7 @@ namespace TaskWorker.Models
         
         public void display()
         {
+            Console.WriteLine("---------------------");
             Console.WriteLine($"ID: {this.Id}");
             Console.WriteLine($"Name: {this.Name}");
             Console.WriteLine($"Email: {this.Email}");
@@ -42,6 +45,8 @@ namespace TaskWorker.Models
             foreach (var pi in PaymentInfos)
                 Console.WriteLine($"-{pi.CardHolderName} , {pi.CardNumber} , {pi.CVV}");
             
+            Console.Write("\n");
+            Console.WriteLine($"OverallRating: {this.overallRating}");
             Console.WriteLine("---------------------");
         }
     }

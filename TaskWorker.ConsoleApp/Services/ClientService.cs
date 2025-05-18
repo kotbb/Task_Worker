@@ -20,8 +20,8 @@ namespace TaskWorker.Services
         public void addClient(Client client)
         {
             string commandText = @"
-            INSERT INTO Client_ (Name, Email,Password, City, StreetName, Country, StreetNumber, ApartmentNumber)
-            VALUES (@Name, @Email,@Password, @City, @StreetName, @Country, @StreetNumber, @ApartmentNumber)
+            INSERT INTO Client_ (Name, Email,Password, City, StreetName, Country, StreetNumber, ApartmentNumber,OverallRating)
+            VALUES (@Name, @Email,@Password, @City, @StreetName, @Country, @StreetNumber, @ApartmentNumber, @OverallRating)
             SELECT CAST(SCOPE_IDENTITY() AS INT);"; 
 
             using (var connection = new SqlConnection(_connectionString))
@@ -35,6 +35,7 @@ namespace TaskWorker.Services
                 command.Parameters.AddWithValue("@Country", client.Country);
                 command.Parameters.AddWithValue("@StreetNumber", client.StreetNumber);
                 command.Parameters.AddWithValue("@ApartmentNumber", client.ApartmentNumber);
+                command.Parameters.AddWithValue("@OverallRating", client.overallRating);
                 try
                 {
                     connection.Open();
@@ -153,7 +154,6 @@ namespace TaskWorker.Services
             using (var command = new SqlCommand(commandText, connection))
             {
                 command.Parameters.AddWithValue("@ClientId", clientId);
-
                 try
                 {
                     connection.Open();
@@ -206,6 +206,7 @@ namespace TaskWorker.Services
                             Country = reader.GetString(reader.GetOrdinal("Country")),
                             StreetNumber = reader.GetInt32(reader.GetOrdinal("StreetNumber")),
                             ApartmentNumber = reader.GetInt32(reader.GetOrdinal("ApartmentNumber")),
+                            overallRating = reader.GetDecimal(reader.GetOrdinal("OverallRating")),
                             // RelationShips
                             PaymentInfos = getPaymentInfo(id),
                             Phones = getClientPhones(id).ToHashSet()
@@ -218,7 +219,7 @@ namespace TaskWorker.Services
         public Client getClientById(int clientId)
         {
             const string query = @"
-            SELECT ID, Name, Email, Password , City, StreetName, Country, StreetNumber, ApartmentNumber 
+            SELECT ID, Name, Email, Password , City, StreetName, Country, StreetNumber, ApartmentNumber, OverallRating 
             FROM Client_ 
             WHERE ID = @ClientId";
 
@@ -245,6 +246,7 @@ namespace TaskWorker.Services
                                 Country = reader.GetString(6),
                                 StreetNumber = reader.GetInt32(7),
                                 ApartmentNumber = reader.GetInt32(8),
+                                overallRating = reader.GetDecimal(9),
                                 // RelationShips
                                 PaymentInfos = getPaymentInfo(id),
                                 Phones = getClientPhones(id).ToHashSet()
@@ -264,7 +266,7 @@ namespace TaskWorker.Services
         public Client getClientByEmail(string email)
         {
             const string query = @"
-            SELECT ID, Name, Email,Password, City, StreetName, Country, StreetNumber, ApartmentNumber 
+            SELECT ID, Name, Email,Password, City, StreetName, Country, StreetNumber, ApartmentNumber,OverallRating 
             FROM Client_ 
             WHERE Email = @Email";
 
@@ -292,6 +294,7 @@ namespace TaskWorker.Services
                                 Country = reader.GetString(6),
                                 StreetNumber = reader.GetInt32(7),
                                 ApartmentNumber = reader.GetInt32(8),
+                                overallRating = reader.GetDecimal(9),
                                 // RelationShips
                                 PaymentInfos = getPaymentInfo(id),
                                 Phones = getClientPhones(id).ToHashSet()
@@ -309,46 +312,144 @@ namespace TaskWorker.Services
         }
         
 
-        public bool updateClients(Dictionary<string, object> updates, Dictionary<string, object> conditions) 
+        public bool UpdateClientName(int clientId,string clientName) 
         {
-            var setText = new List<string>();
-            var sqlParameters = new List<SqlParameter>();
-
-            foreach (var update in updates)
-            {
-                setText.Add($"{update.Key} = @{update.Key}");
-                sqlParameters.Add(new SqlParameter($"{update.Key}", update.Value));
-            }
-
-            var whereText = new List<string>();
-            foreach (var condition in conditions)
-            {
-                whereText.Add($"{condition.Key} = @{condition.Key}");
-                sqlParameters.Add(new SqlParameter($"{condition.Key}", condition.Value));
-            }
 
             string commandText = $@"
                 UPDATE Client_ 
-                SET {string.Join(", ", setText)} 
-                WHERE {string.Join(" AND ", whereText)}";
+                SET Name = @name 
+                WHERE ID = @id;";
 
             using (var connection = new SqlConnection(_connectionString))
             using (var command = new SqlCommand(commandText, connection))
             {
-                foreach (var param in sqlParameters)
-                {
-                    command.Parameters.Add(param);
-                }
+                command.Parameters.AddWithValue("@name", clientName);
+                command.Parameters.AddWithValue("@id", clientId);
                 try
                 {
                     connection.Open();
                     int rowsAffected = command.ExecuteNonQuery();
-                    Console.WriteLine($"Updated {rowsAffected} client/s matching conditions.");
+                    Console.WriteLine($"Updated {rowsAffected} client/s matching name.");
                     return true;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Error updating clients: {e.Message}");
+                    Console.WriteLine($"Error updating client: {e.Message}");
+                    throw;
+                }
+            }
+        }
+        public bool DeleteClientById(int clientId) {
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                string query = @"DELETE FROM Client_
+                                 WHERE ID = @id";
+                var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", clientId);
+                connection.Open();
+                
+                return command.ExecuteNonQuery() > 0;
+            }
+        }
+        public bool UpdateClientCity(int clientId,string clientCity) 
+        {
+
+            string commandText = $@"
+                UPDATE Client_ 
+                SET City = @city 
+                WHERE ID = @id;";
+
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand(commandText, connection))
+            {
+                command.Parameters.AddWithValue("@city", clientCity);
+                command.Parameters.AddWithValue("@id", clientId);
+                try
+                {
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+                    Console.WriteLine($"Updated {rowsAffected} client.");
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error updating client: {e.Message}");
+                    throw;
+                }
+            }
+        }
+        public bool UpdateClientCountry(int clientId,string clientCountry) 
+        {
+
+            string commandText = $@"
+                UPDATE Client_ 
+                SET Country = @country 
+                WHERE ID = @id;";
+
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand(commandText, connection))
+            {
+                command.Parameters.AddWithValue("@country", clientCountry);
+                command.Parameters.AddWithValue("@id", clientId);
+                try
+                {
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+                    Console.WriteLine($"Updated {rowsAffected} client.");
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error updating client: {e.Message}");
+                    throw;
+                }
+            }
+        }
+        
+        public bool UpdateClientPhone(int clientId, string newPhoneNumber)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            using (var transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    connection.Open();
+                    
+                    string deleteCommandText = @"DELETE FROM Client_Phone 
+                                               WHERE Client_ID = @clientId";
+                    
+                    using (var deleteCommand = new SqlCommand(deleteCommandText, connection, transaction))
+                    {
+                        deleteCommand.Parameters.AddWithValue("@clientId", clientId);
+                        int deletedRows = deleteCommand.ExecuteNonQuery();
+                        Console.WriteLine($"Deleted {deletedRows} old phone number(s)");
+                    }
+
+                    string insertCommandText = @"INSERT INTO Client_Phone 
+                                               (Client_ID, PhoneNumber)
+                                               VALUES (@clientId, @newPhoneNumber)";
+                    
+                    using (var insertCommand = new SqlCommand(insertCommandText, connection, transaction))
+                    {
+                        insertCommand.Parameters.AddWithValue("@clientId", clientId);
+                        insertCommand.Parameters.AddWithValue("@newPhoneNumber", newPhoneNumber);
+                        int insertedRows = insertCommand.ExecuteNonQuery();
+                        
+                        if (insertedRows == 0)
+                        {
+                            transaction.Rollback();
+                            return false;
+                        }
+                    }
+
+                    transaction.Commit();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"Error updating client phone: {e.Message}");
                     throw;
                 }
             }
@@ -403,5 +504,79 @@ namespace TaskWorker.Services
             }
         }
         
+        public bool DeleteClientPhone(int clientId) 
+        {
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                string query = @"DELETE FROM Client_Phone
+                                 WHERE Client_ID = @id";
+                var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", clientId);
+                connection.Open();
+                return command.ExecuteNonQuery() > 0;
+            }
+        }
+        public bool CalculateClientOverallRating(int clientId)
+        {
+            // First get the average rating
+            string selectCommandText = @"
+                SELECT AVG(CAST(ClientRating AS DECIMAL(3,2)))
+                FROM RequestExecution re
+                JOIN Request_ r ON re.Request_ID = r.ID
+                WHERE r.Client_ID = @clientId";
+            
+            // Then update the client's overall rating
+            string updateCommandText = @"
+                UPDATE Client_
+                SET OverallRating = @averageRating
+                WHERE ID = @clientId";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    
+                    // Calculate the average rating
+                    decimal? averageRating = null;
+                    using (var selectCommand = new SqlCommand(selectCommandText, connection))
+                    {
+                        selectCommand.Parameters.AddWithValue("@clientId", clientId);
+                        var result = selectCommand.ExecuteScalar();
+                        
+                        if (result != DBNull.Value)
+                        {
+                            averageRating = Convert.ToDecimal(result);
+                        }
+                    }
+
+                    // Update the client's record
+                    using (var updateCommand = new SqlCommand(updateCommandText, connection))
+                    {
+                        updateCommand.Parameters.AddWithValue("@clientId", clientId);
+                        
+                        if (averageRating.HasValue)
+                        {
+                            updateCommand.Parameters.AddWithValue("@averageRating", averageRating.Value);
+                        }
+                        else
+                        {
+                            // Handle case where client has no ratings yet
+                            updateCommand.Parameters.AddWithValue("@averageRating", DBNull.Value);
+                        }
+
+                        int rowsAffected = updateCommand.ExecuteNonQuery();
+                        Console.WriteLine($"Updated overall rating for client ID {clientId}. Rows affected: {rowsAffected}");
+                        return rowsAffected > 0;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error calculating client overall rating: {e.Message}");
+                    throw;
+                }
+            }
+        }
     }
 }

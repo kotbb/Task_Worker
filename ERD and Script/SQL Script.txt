@@ -1,7 +1,9 @@
+
 CREATE TABLE Worker_
 (
   ID INT NOT NULL IDENTITY(1,1),
   Name VARCHAR(50) NOT NULL,
+  OverallRating NUMERIC(3,2) NULL CHECK (OverallRating BETWEEN 0 AND 5),
   PRIMARY KEY (ID)
 );
 
@@ -16,6 +18,7 @@ CREATE TABLE Client_
   Country VARCHAR(50) NOT NULL,
   StreetNumber INT NULL,
   ApartmentNumber INT NULL,
+  OverallRating NUMERIC(3,2) NULL CHECK (OverallRating BETWEEN 0 AND 5), 
   PRIMARY KEY (ID),
   UNIQUE (Email)
 );
@@ -24,6 +27,8 @@ CREATE TABLE Task_
   ID INT NOT NULL IDENTITY(1,1),
   Name VARCHAR(50) NOT NULL,
   RequiredSpecialty VARCHAR(30) NOT NULL,
+  AverageTimeNeeded Int NOT NULL, 
+  AverageTaskFee DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -41,9 +46,9 @@ CREATE TABLE Request_
 
 CREATE TABLE RequestExecution (
     ActualTime DATETIME NOT NULL,  
-    WorkerRating NUMERIC(2,1) NOT NULL CHECK (WorkerRating BETWEEN 1 AND 5),  
-    ClientRating NUMERIC(2,1) NOT NULL CHECK (ClientRating BETWEEN 1 AND 5),
-    RequestStatus VARCHAR(20) NOT NULL CHECK (RequestStatus IN ('Pending', 'Completed', 'Failed')),
+    WorkerRating NUMERIC(2,1) NULL CHECK (WorkerRating BETWEEN 0 AND 5),  
+    ClientRating NUMERIC(2,1) NULL CHECK (ClientRating BETWEEN 0 AND 5),
+    RequestStatus VARCHAR(20) NULL CHECK (RequestStatus IN ('Pending', 'Completed', 'Failed')),
     ClientFeedback VARCHAR(255),
     WorkerFeedback VARCHAR(255),
     Worker_ID INT NOT NULL,
@@ -88,7 +93,7 @@ CREATE TABLE Client_Phone
 CREATE TABLE Client_PaymentInfo
 (
   CardHolderName VARCHAR(50) NOT NULL,
-  CardNumber NUMERIC(16,0) NOT NULL,
+  CardNumber VARCHAR(16) NOT NULL,
   CVV NUMERIC(4,0) NOT NULL,
   ExpiryDate DATE NOT NULL,
   Client_ID INT NOT NULL,
@@ -105,3 +110,4 @@ CREATE TABLE Worker_Locations
   PRIMARY KEY (City, Street, Country, Worker_ID),
   FOREIGN KEY (Worker_ID) REFERENCES Worker_(ID) ON DELETE CASCADE
 );
+
