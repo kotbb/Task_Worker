@@ -1,0 +1,119 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace WorkerReports
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string connectionString = "Server = MOE\\SQLEXPRESS; Database = Task_Worker; Trusted_Connection = true;";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                Console.WriteLine("--- Matching Workers for Request ID 1 ---");
+                ExecuteQuery(conn, @"
+                    SELECT DISTINCT W.ID, W.Name
+                    FROM Request_ R
+                    JOIN Task_ T ON R.Task_ID = T.ID
+                    JOIN Worker_Specialties WS ON WS.Specialties = T.RequiredSpecialty
+                   JOIN Worker_AvailableTimeSlots TS ON CAST(TS.AvailableTimeSlots AS DATE) = R.PreferredTimeSlot
+                    JOIN Worker_Locations WL ON WL.City = (SELECT City FROM Client_ WHERE ID = R.Client_ID)
+                    JOIN Worker_ W ON W.ID = WS.Worker_ID
+                    WHERE R.ID = 1
+                ");
+
+                Console.WriteLine("--- Total Due Wage per Worker (May 2025) ---");
+                ExecuteQuery(conn, @"
+                    SELECT W.ID, W.Name,
+                           SUM(T.AverageTaskFee * (RE.ClientRating / 5.0)) AS TotalWage
+                    FROM Worker_ W
+                    JOIN RequestExecution RE ON W.ID = RE.Worker_ID
+                    JOIN Request_ R ON RE.Request_ID = R.ID
+                    JOIN Task_ T ON R.Task_ID = T.ID
+                    WHERE R.RequestTime BETWEEN '2025-05-01' AND '2025-05-31'
+                      AND RE.RequestStatus = 'Completed'
+                    GROUP BY W.ID, W.Name
+                ");
+
+                Console.WriteLine("--- Most Requested Task ---");
+                ExecuteQuery(conn, @"
+                    SELECT TOP 1 T.Name, COUNT(*) AS RequestCount
+                    FROM Request_ R
+                    JOIN Task_ T ON R.Task_ID = T.ID
+                    GROUP BY T.Name
+                    ORDER BY RequestCount DESC
+                ");
+
+                Console.WriteLine("--- Best Worker per Specialty (May 2025) ---");
+                ExecuteQuery(conn, @"
+                    SELECT T.RequiredSpecialty, W.Name, AVG(RE.ClientRating) AS AvgRating
+                    FROM RequestExecution RE
+                    JOIN Worker_ W ON RE.Worker_ID = W.ID
+                    JOIN Request_ R ON RE.Request_ID = R.ID
+                    JOIN Task_ T ON R.Task_ID = T.ID
+                    WHERE R.RequestTime BETWEEN '2025-05-01' AND '2025-05-31'
+                    GROUP BY T.RequiredSpecialty, W.Name
+                    HAVING AVG(RE.ClientRating) = (
+                      SELECT MAX(AvgR) FROM (
+                        SELECT AVG(RE2.ClientRating) AS AvgR
+                        FROM RequestExecution RE2
+                        JOIN Request_ R2 ON RE2.Request_ID = R2.ID
+                        JOIN Task_ T2 ON R2.Task_ID = T2.ID
+                        WHERE R2.RequestTime BETWEEN '2025-05-01' AND '2025-05-31'
+                          AND T2.RequiredSpecialty = T.RequiredSpecialty
+                        GROUP BY RE2.Worker_ID
+                      ) AS Ratings
+                    )
+                ");
+
+                Console.WriteLine("--- Specialties with No Requests in May 2025 ---");
+                ExecuteQuery(conn, @"
+                    SELECT DISTINCT T.RequiredSpecialty
+                    FROM Task_ T
+                    WHERE T.ID NOT IN (
+                      SELECT Task_ID FROM Request_
+                      WHERE RequestTime BETWEEN '2025-05-01' AND '2025-05-31'
+                    )
+                ");
+
+                Console.WriteLine("--- Workers With All Ratings >= 4.5 ---");
+                ExecuteQuery(conn, @"
+                    SELECT W.ID, W.Name
+                    FROM Worker_ W
+                    WHERE NOT EXISTS (
+                      SELECT 1 FROM RequestExecution RE
+                      WHERE RE.Worker_ID = W.ID AND RE.ClientRating < 4.5
+                    )
+                ");
+            }
+        }
+
+        static void ExecuteQuery(SqlConnection conn, string query)
+        {
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                DataTable schemaTable = reader.GetSchemaTable();
+                foreach (DataRow col in schemaTable.Rows)
+                {
+                    Console.Write("{0}\t", col["ColumnName"]);
+                }
+                Console.WriteLine("\n--------------------------------------------------");
+
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        Console.Write("{0}\t", reader[i]);
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}

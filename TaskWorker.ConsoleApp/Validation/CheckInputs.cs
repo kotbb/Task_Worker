@@ -35,4 +35,21 @@ public class CheckInputs
 
         return true;
     }
+    public static bool IsValidRating(string rating)
+    {
+        return double.TryParse(rating, out _) && double.Parse(rating) >= 0 && double.Parse(rating) <= 5;
+    }
+    public static bool IsValidStatus(string status){
+        if(status == "Pending" || status == "Completed" || status == "Failed"){
+            return true;
+        }
+        return false;
+    }
+    public static bool IsValidTimeSlot(string timeSlot){
+        DateTime time;
+        if(DateTime.TryParse(timeSlot, out time)){
+            return true;
+        }
+        return false;
+    }
 }

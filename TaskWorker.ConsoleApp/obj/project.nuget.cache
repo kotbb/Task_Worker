@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LL6lAtoH+l4=",
+  "dgSpecHash": "1pnBYCmF5Yo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Kotb\\RiderProjects\\ConsoleApp2\\TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj",
+  "projectFilePath": "D:\\Projects\\Task Worker Matching\\Software Application\\ConsoleApp2\\TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Kotb\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Kotb\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

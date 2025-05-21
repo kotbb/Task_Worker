@@ -1843,11 +1843,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kotb\\RiderProjects\\ConsoleApp2\\TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj",
+      "projectUniqueName": "D:\\Projects\\Task Worker Matching\\Software Application\\ConsoleApp2\\TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj",
       "projectName": "TaskWorker.ConsoleApp",
-      "projectPath": "C:\\Users\\Kotb\\RiderProjects\\ConsoleApp2\\TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj",
+      "projectPath": "D:\\Projects\\Task Worker Matching\\Software Application\\ConsoleApp2\\TaskWorker.ConsoleApp\\TaskWorker.ConsoleApp.csproj",
       "packagesPath": "C:\\Users\\Kotb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kotb\\RiderProjects\\ConsoleApp2\\TaskWorker.ConsoleApp\\obj\\",
+      "outputPath": "D:\\Projects\\Task Worker Matching\\Software Application\\ConsoleApp2\\TaskWorker.ConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1880,7 +1880,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -1915,7 +1915,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

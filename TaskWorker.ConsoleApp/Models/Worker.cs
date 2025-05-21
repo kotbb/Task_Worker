@@ -21,8 +21,19 @@ namespace TaskWorker.Models
         public List<WorkerAvailableTimeSlot> AvailableTimeSlots { get; set; } = new();
         public List<WorkerLocation> Locations { get; set; } = new();
         public HashSet<Perform> Performs { get; set; } = new();
-        public List<RequestExecution> RequestExecutions { get; set; } = new();
         
+        //--------------------------------------- Functions ---------------------------------------
+        public bool isPerforming(int taskId)
+        {
+            foreach (var perform in Performs)
+            {
+                if (perform.TaskId == taskId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public void display()
         {
             Console.WriteLine("---------------------");
@@ -41,6 +52,11 @@ namespace TaskWorker.Models
             Console.WriteLine($"Locations:");
             foreach (var loc in Locations)
                 Console.WriteLine($"- {loc.Country}, {loc.City} , {loc.Street}");
+
+            Console.Write("\n");
+            Console.WriteLine($"Tasks Perform:");
+            foreach (var perform in Performs)
+                Console.WriteLine($"- Task {perform.TaskId}");
             
             Console.Write("\n");
             Console.WriteLine($"OverallRating: {this.overallRating}");

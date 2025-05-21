@@ -8,7 +8,7 @@ namespace TaskWorker.Services
 {
     internal class RequestExecutionService
     {
-        private  string _connectionString;
+        private string _connectionString;
 
         public RequestExecutionService(string connectionString)
         {
@@ -18,53 +18,53 @@ namespace TaskWorker.Services
         // Add a new RequestExecution
         public void AddRequestExecution(RequestExecution exec)
         {
-            string commandText = @"
-                INSERT INTO RequestExecution 
-                (ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID)
-                VALUES
-                (@ActualTime, @WorkerRating, @ClientRating, @RequestStatus, @ClientFeedback, @WorkerFeedback, @Worker_ID, @Request_ID)";
-
-            using (var connection = new SqlConnection(_connectionString))
-            using (var command = new SqlCommand(commandText, connection))
+            try
             {
-                command.Parameters.AddWithValue("@ActualTime", exec.ActualTime);
-                command.Parameters.AddWithValue("@WorkerRating", exec.WorkerRating);
-                command.Parameters.AddWithValue("@ClientRating", exec.ClientRating);
-                command.Parameters.AddWithValue("@RequestStatus", exec.Status);
-                command.Parameters.AddWithValue("@ClientFeedback", (object)exec.ClientFeedback ?? DBNull.Value);
-                command.Parameters.AddWithValue("@WorkerFeedback", (object)exec.WorkerFeedback ?? DBNull.Value);
-                command.Parameters.AddWithValue("@Worker_ID", exec.WorkerId);
-                command.Parameters.AddWithValue("@Request_ID", exec.RequestId);
+                string commandText = @"
+                    INSERT INTO RequestExecution 
+                    (ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID)
+                    VALUES
+                    (@ActualTime, @WorkerRating, @ClientRating, @RequestStatus, @ClientFeedback, @WorkerFeedback, @Worker_ID, @Request_ID)";
 
-                try
+                using (var connection = new SqlConnection(_connectionString))
+                using (var command = new SqlCommand(commandText, connection))
                 {
+                    command.Parameters.AddWithValue("@ActualTime", exec.ActualTime);
+                    command.Parameters.AddWithValue("@WorkerRating", exec.WorkerRating);
+                    command.Parameters.AddWithValue("@ClientRating", exec.ClientRating);
+                    command.Parameters.AddWithValue("@RequestStatus", exec.Status);
+                    command.Parameters.AddWithValue("@ClientFeedback", (object)exec.ClientFeedback ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@WorkerFeedback", (object)exec.WorkerFeedback ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@Worker_ID", exec.WorkerId);
+                    command.Parameters.AddWithValue("@Request_ID", exec.RequestId);
+
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error adding RequestExecution: {ex.Message}");
-                    throw;
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding RequestExecution: {ex.Message}");
+                throw;
             }
         }
 
         // Get a RequestExecution by composite primary key (WorkerId + RequestId)
         public RequestExecution GetRequestExecution(int workerId, int requestId)
         {
-            string query = @"
-                SELECT ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID
-                FROM RequestExecution
-                WHERE Worker_ID = @WorkerId AND Request_ID = @RequestId";
-
-            using (var connection = new SqlConnection(_connectionString))
-            using (var command = new SqlCommand(query, connection))
+            try
             {
-                command.Parameters.AddWithValue("@WorkerId", workerId);
-                command.Parameters.AddWithValue("@RequestId", requestId);
+                string query = @"
+                    SELECT ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID
+                    FROM RequestExecution
+                    WHERE Worker_ID = @WorkerId AND Request_ID = @RequestId";
 
-                try
+                using (var connection = new SqlConnection(_connectionString))
+                using (var command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@WorkerId", workerId);
+                    command.Parameters.AddWithValue("@RequestId", requestId);
+
                     connection.Open();
                     using (var reader = command.ExecuteReader(CommandBehavior.SingleRow))
                     {
@@ -84,93 +84,93 @@ namespace TaskWorker.Services
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error retrieving RequestExecution: {ex.Message}");
-                    throw;
-                }
+                return null; // Not found
             }
-            return null; // Not found
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving RequestExecution: {ex.Message}");
+                throw;
+            }
         }
 
         public bool UpdateRequestExecution(RequestExecution exec)
         {
-            string commandText = @"
-                UPDATE RequestExecution SET
-                    ActualTime = @ActualTime,
-                    WorkerRating = @WorkerRating,
-                    ClientRating = @ClientRating,
-                    RequestStatus = @RequestStatus,
-                    ClientFeedback = @ClientFeedback,
-                    WorkerFeedback = @WorkerFeedback
-                WHERE Worker_ID = @Worker_ID AND Request_ID = @Request_ID";
-
-            using (var connection = new SqlConnection(_connectionString))
-            using (var command = new SqlCommand(commandText, connection))
+            try
             {
-                command.Parameters.AddWithValue("@ActualTime", exec.ActualTime);
-                command.Parameters.AddWithValue("@WorkerRating", exec.WorkerRating);
-                command.Parameters.AddWithValue("@ClientRating", exec.ClientRating);
-                command.Parameters.AddWithValue("@RequestStatus", exec.Status);
-                command.Parameters.AddWithValue("@ClientFeedback", (object)exec.ClientFeedback ?? DBNull.Value);
-                command.Parameters.AddWithValue("@WorkerFeedback", (object)exec.WorkerFeedback ?? DBNull.Value);
-                command.Parameters.AddWithValue("@Worker_ID", exec.WorkerId);
-                command.Parameters.AddWithValue("@Request_ID", exec.RequestId);
+                string commandText = @"
+                    UPDATE RequestExecution SET
+                        ActualTime = @ActualTime,
+                        WorkerRating = @WorkerRating,
+                        ClientRating = @ClientRating,
+                        RequestStatus = @RequestStatus,
+                        ClientFeedback = @ClientFeedback,
+                        WorkerFeedback = @WorkerFeedback
+                    WHERE Worker_ID = @Worker_ID AND Request_ID = @Request_ID";
 
-                try
+                using (var connection = new SqlConnection(_connectionString))
+                using (var command = new SqlCommand(commandText, connection))
                 {
+                    command.Parameters.AddWithValue("@ActualTime", exec.ActualTime);
+                    command.Parameters.AddWithValue("@WorkerRating", exec.WorkerRating);
+                    command.Parameters.AddWithValue("@ClientRating", exec.ClientRating);
+                    command.Parameters.AddWithValue("@RequestStatus", exec.Status);
+                    command.Parameters.AddWithValue("@ClientFeedback", (object)exec.ClientFeedback ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@WorkerFeedback", (object)exec.WorkerFeedback ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@Worker_ID", exec.WorkerId);
+                    command.Parameters.AddWithValue("@Request_ID", exec.RequestId);
+
                     connection.Open();
                     int rowsAffected = command.ExecuteNonQuery();
                     return rowsAffected > 0;
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error updating RequestExecution: {ex.Message}");
-                    throw;
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating RequestExecution: {ex.Message}");
+                throw;
             }
         }
 
         // Delete a RequestExecution by composite key
         public bool DeleteRequestExecution(int workerId, int requestId)
         {
-            string commandText = @"
-                DELETE FROM RequestExecution
-                WHERE Worker_ID = @WorkerId AND Request_ID = @RequestId";
-
-            using (var connection = new SqlConnection(_connectionString))
-            using (var command = new SqlCommand(commandText, connection))
+            try
             {
-                command.Parameters.AddWithValue("@WorkerId", workerId);
-                command.Parameters.AddWithValue("@RequestId", requestId);
+                string commandText = @"
+                    DELETE FROM RequestExecution
+                    WHERE Worker_ID = @WorkerId AND Request_ID = @RequestId";
 
-                try
+                using (var connection = new SqlConnection(_connectionString))
+                using (var command = new SqlCommand(commandText, connection))
                 {
+                    command.Parameters.AddWithValue("@WorkerId", workerId);
+                    command.Parameters.AddWithValue("@RequestId", requestId);
+
                     connection.Open();
                     int rowsDeleted = command.ExecuteNonQuery();
                     return rowsDeleted > 0;
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error deleting RequestExecution: {ex.Message}");
-                    throw;
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting RequestExecution: {ex.Message}");
+                throw;
             }
         }
 
         //Get all RequestExecutions
         public List<RequestExecution> GetAllRequestExecutions()
         {
-            string query = @"
-                SELECT ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID
-                FROM RequestExecution";
-
-            var executions = new List<RequestExecution>();
-
-            using (var connection = new SqlConnection(_connectionString))
-            using (var command = new SqlCommand(query, connection))
+            try
             {
-                try
+                string query = @"
+                    SELECT ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID
+                    FROM RequestExecution";
+
+                var executions = new List<RequestExecution>();
+
+                using (var connection = new SqlConnection(_connectionString))
+                using (var command = new SqlCommand(query, connection))
                 {
                     connection.Open();
                     using (var reader = command.ExecuteReader())
@@ -191,28 +191,28 @@ namespace TaskWorker.Services
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error retrieving RequestExecutions: {ex.Message}");
-                    throw;
-                }
+                return executions;
             }
-
-            return executions;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving all RequestExecutions: {ex.Message}");
+                throw;
+            }
         }
+
         public List<RequestExecution> GetPendingRequestExecutions()
         {
-            string query = @"
-                SELECT ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID
-                FROM RequestExecution
-                WHERE RequestStatus = 'Pending' ";
-
-            var executions = new List<RequestExecution>();
-
-            using (var connection = new SqlConnection(_connectionString))
-            using (var command = new SqlCommand(query, connection))
+            try
             {
-                try
+                string query = @"
+                    SELECT ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID
+                    FROM RequestExecution
+                    WHERE RequestStatus = 'Pending' ";
+
+                var executions = new List<RequestExecution>();
+
+                using (var connection = new SqlConnection(_connectionString))
+                using (var command = new SqlCommand(query, connection))
                 {
                     connection.Open();
                     using (var reader = command.ExecuteReader())
@@ -233,28 +233,28 @@ namespace TaskWorker.Services
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error retrieving RequestExecutions: {ex.Message}");
-                    throw;
-                }
+                return executions;
             }
-
-            return executions;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving pending RequestExecutions: {ex.Message}");
+                throw;
+            }
         }
+
         public List<RequestExecution> GetCompletedRequestExecutions()
         {
-            string query = @"
-                SELECT ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID
-                FROM RequestExecution
-                WHERE RequestStatus = 'Completed' ";
-
-            var executions = new List<RequestExecution>();
-
-            using (var connection = new SqlConnection(_connectionString))
-            using (var command = new SqlCommand(query, connection))
+            try
             {
-                try
+                string query = @"
+                    SELECT ActualTime, WorkerRating, ClientRating, RequestStatus, ClientFeedback, WorkerFeedback, Worker_ID, Request_ID
+                    FROM RequestExecution
+                    WHERE RequestStatus = 'Completed' ";
+
+                var executions = new List<RequestExecution>();
+
+                using (var connection = new SqlConnection(_connectionString))
+                using (var command = new SqlCommand(query, connection))
                 {
                     connection.Open();
                     using (var reader = command.ExecuteReader())
@@ -275,14 +275,13 @@ namespace TaskWorker.Services
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error retrieving RequestExecutions: {ex.Message}");
-                    throw;
-                }
+                return executions;
             }
-            return executions;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving completed RequestExecutions: {ex.Message}");
+                throw;
+            }
         }
-        
     }
 }

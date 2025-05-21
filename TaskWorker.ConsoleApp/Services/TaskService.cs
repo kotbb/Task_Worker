@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using Task = TaskWorker.Models.Task;
 using System.Data;
+using System.Collections.Generic;
 
 namespace TaskWorker.Services
 {
@@ -14,71 +15,99 @@ namespace TaskWorker.Services
         {
             _connectionString = connectionString;
         }
+
         public void addTask(Task task)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                string query = @"INSERT INTO TASK_ (NAME,REQUIREDSPECIALTY,AverageTimeNeeded,AverageTaskFee) 
-                                 VALUES (@Name , @RequiredSpecialty, @AverageTimeNeeded,@AverageTaskFee);
-                                 SELECT CAST(SCOPE_IDENTITY() AS INT);";
-                var command = new SqlCommand(query, connection);
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    string query = @"INSERT INTO TASK_ (NAME,REQUIREDSPECIALTY,AverageTimeNeeded,AverageTaskFee) 
+                                    VALUES (@Name , @RequiredSpecialty, @AverageTimeNeeded,@AverageTaskFee);
+                                    SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                    var command = new SqlCommand(query, connection);
 
-                command.Parameters.AddWithValue("@Name", task.Name);
-                command.Parameters.AddWithValue("@RequiredSpecialty", task.RequiredSpecialty);
-                command.Parameters.AddWithValue("@AverageTimeNeeded", task.AverageTimeNeeded);
-                command.Parameters.AddWithValue("@AverageTaskFee", task.AverageTaskFee);
-                connection.Open();
-                var newId = (int)command.ExecuteScalar();
-                task.Id = newId;
+                    command.Parameters.AddWithValue("@Name", task.Name);
+                    command.Parameters.AddWithValue("@RequiredSpecialty", task.RequiredSpecialty);
+                    command.Parameters.AddWithValue("@AverageTimeNeeded", task.AverageTimeNeeded);
+                    command.Parameters.AddWithValue("@AverageTaskFee", task.AverageTaskFee);
+                    connection.Open();
+                    var newId = (int)command.ExecuteScalar();
+                    task.Id = newId;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding task: {ex.Message}");
+                throw;
             }
         }
+
         public List<Task> getallTasks()
         {
-            var tasks = new List<Task>();
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                string query = @"SELECT * FROM TASK_;";
-                var command = new SqlCommand(query, connection);
-
-                connection.Open();
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                var tasks = new List<Task>();
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    tasks.Add(new Task(
-                        reader.GetInt32(reader.GetOrdinal("ID")),
-                        reader.GetString(reader.GetOrdinal("Name")),
-                        reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
-                        reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
-                        reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
-                    ));
+                    string query = @"SELECT * FROM TASK_;";
+                    var command = new SqlCommand(query, connection);
+
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        tasks.Add(new Task(
+                            reader.GetInt32(reader.GetOrdinal("ID")),
+                            reader.GetString(reader.GetOrdinal("Name")),
+                            reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
+                            reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
+                            reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
+                        ));
+                    }
                 }
                 return tasks;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting all tasks: {ex.Message}");
+                throw;
+            }
         }
+
         public List<Task> selectbyName(string name)
         {
-            var tasks = new List<Task>();
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                string query = @"SELECT * FROM TASK_ WHERE Name = @NAME;";
-                var command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@NAME", name);
-
-                connection.Open();
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                var tasks = new List<Task>();
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    tasks.Add(new Task(
-                        reader.GetInt32(reader.GetOrdinal("ID")),
-                        reader.GetString(reader.GetOrdinal("Name")),
-                        reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
-                        reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
-                        reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
-                    ));
+                    string query = @"SELECT * FROM TASK_ WHERE Name = @NAME;";
+                    var command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@NAME", name);
+
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        tasks.Add(new Task(
+                            reader.GetInt32(reader.GetOrdinal("ID")),
+                            reader.GetString(reader.GetOrdinal("Name")),
+                            reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
+                            reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
+                            reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
+                        ));
+                    }
                 }
                 return tasks;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error selecting tasks by name: {ex.Message}");
+                throw;
+            }
         }
+
         public Task getTaskById(int id)
         {
             try
@@ -93,23 +122,24 @@ namespace TaskWorker.Services
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        return(new Task(
+                        return new Task(
                             reader.GetInt32(reader.GetOrdinal("ID")),
                             reader.GetString(reader.GetOrdinal("Name")),
                             reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
                             reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
                             reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
-                        ));
+                        );
                     }
-                } 
+                }
+                return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error getting task by ID: {ex.Message}");
+                throw;
             }
-            
-            return null;
         }
+
         public Task getTaskBySpecialty(string Req)
         {
             try
@@ -124,48 +154,64 @@ namespace TaskWorker.Services
                     var reader = command.ExecuteReader();
                     if (reader.Read())
                     {
-                        return (new Task(
+                        return new Task(
                             reader.GetInt32(reader.GetOrdinal("ID")),
                             reader.GetString(reader.GetOrdinal("Name")),
                             reader.GetString(reader.GetOrdinal("RequiredSpecialty")),
                             reader.GetInt32(reader.GetOrdinal("AverageTimeNeeded")),
                             reader.GetDecimal(reader.GetOrdinal("AverageTaskFee"))
-                        ));
+                        );
                     }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting task by specialty: {ex.Message}");
+                throw;
+            }
+        }
+
+        public bool deleteallTasks()
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    string query = "DELETE FROM Task_;" +
+                                  "DBCC CHECKIDENT ('Task_', RESEED, 0);";
+
+                    var command = new SqlCommand(query, connection);
+                    connection.Open();
+                    return command.ExecuteNonQuery() > 0;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-            }
-            return null;
-        }
-        public bool deleteallTasks() {
-
-            using (var connection = new SqlConnection(_connectionString)) {
-
-                string query = "DELETE FROM Task_;" +
-                               "DBCC CHECKIDENT ('Task_', RESEED, 0);";
-
-                var command = new SqlCommand(query, connection);
-                connection.Open();
-                
-                return command.ExecuteNonQuery() > 0;
+                Console.WriteLine($"Error deleting all tasks: {ex.Message}");
+                throw;
             }
         }
-        public bool deleteTaskById(int taskId) {
 
-            using (var connection = new SqlConnection(_connectionString))
+        public bool deleteTaskById(int taskId)
+        {
+            try
             {
-                string query = @"DELETE FROM Task_
-                                 WHERE ID = @id";
-                var command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@id", taskId);
-                connection.Open();
-                
-                return command.ExecuteNonQuery() > 0;
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    string query = @"DELETE FROM Task_
+                                    WHERE ID = @id";
+                    var command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@id", taskId);
+                    connection.Open();
+                    return command.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting task by ID: {ex.Message}");
+                throw;
             }
         }
-        
     }
 }

@@ -22,14 +22,14 @@ namespace TaskWorker.Models
         public void display()
         {
             Console.WriteLine("----- Request Execution Details -----");
-            Console.WriteLine($"Actual Time      : {ActualTime}");
-            Console.WriteLine($"Worker Rating    : {WorkerRating}/5.0");
-            Console.WriteLine($"Client Rating    : {ClientRating}/5.0");
-            Console.WriteLine($"Status           : {Status}");
-            Console.WriteLine($"Client Feedback  : {ClientFeedback}");
-            Console.WriteLine($"Worker Feedback  : {WorkerFeedback}");
-            Console.WriteLine($"Worker ID        : {WorkerId}");
-            Console.WriteLine($"Request ID       : {RequestId}");
+            Console.WriteLine($"Actual Time                : {ActualTime}");
+            Console.WriteLine($"Client Rating to Worker    : {WorkerRating}/5.0");
+            Console.WriteLine($"Worker Rating to Client    : {ClientRating}/5.0");
+            Console.WriteLine($"Status                     : {Status}");
+            Console.WriteLine($"Client Feedback            : {ClientFeedback}");
+            Console.WriteLine($"Worker Feedback            : {WorkerFeedback}");
+            Console.WriteLine($"Worker ID                  : {WorkerId}");
+            Console.WriteLine($"Request ID                 : {RequestId}");
             Console.WriteLine("-------------------------------------");
         }
         

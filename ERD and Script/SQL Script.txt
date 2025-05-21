@@ -110,4 +110,3 @@ CREATE TABLE Worker_Locations
   PRIMARY KEY (City, Street, Country, Worker_ID),
   FOREIGN KEY (Worker_ID) REFERENCES Worker_(ID) ON DELETE CASCADE
 );
-
